@@ -1,0 +1,28 @@
+{
+  "name": "inventory-kafka-nodejs",
+  "version": "1.0.0",
+  "description": "NodeJS version of a kafka service.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/kafka/producer.js",
+    "run": "node src/kafka/consumer.js",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ibm-garage-cloud/inventory-kafka-nodejs.git"
+  },
+  "keywords": [
+    "kafka",
+    "event-stream",
+    "inventory",
+    "cloud-native",
+    "toolkit"
+  ],
+  "author": "Bryan Kribbs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ibm-garage-cloud/inventory-kafka-nodejs/issues"
+  },
+  "homepage": "https://github.com/ibm-garage-cloud/inventory-kafka-nodejs#readme"
+}
