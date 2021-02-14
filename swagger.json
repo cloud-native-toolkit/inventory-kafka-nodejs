@@ -11,12 +11,36 @@
        }
     ],
     "paths": {
-        "/updateInventory":{
+        "/inventory/update":{
             "post":{
                 "tags":[
                     "Inventory Actions"
                 ],
                 "summary": "Updates the Inventory using Kafka",
+                "parameters": [
+                    {
+                       "in": "body",
+                       "name": "user",
+                       "description": "The user to create.",
+                       "schema": {
+                          "type": "object",
+                          "required": [
+                             "userName"
+                          ],
+                          "properties": {
+                             "userName": {
+                                "type": "string"
+                             },
+                             "firstName": {
+                                "type": "string"
+                             },
+                             "lastName": {
+                                "type": "string"
+                             }
+                          }
+                       }
+                    }
+                 ],
                 "responses":{
                     "200": {
                         "description": "OK",

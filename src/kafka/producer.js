@@ -20,7 +20,4 @@ console.log('Message Produced');
 await producer.disconnect()
 }
 
-console.log('Sending Messages');
-runProducer();
-
 module.exports = runProducer;

@@ -6,24 +6,24 @@ const kafkaFunctions = require('./src/kafka/producer.js');
 const swaggerUi = require('swagger-ui-express'),
     swaggerDocument = require('./swagger.json');
 
-app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.post('/updateInventory', (req, res) => { 
-  console.log("POST");
-  console.log("request", req);
-  console.log("KAFKA", kafkaFunctions);
-  if (!req.body.name) { 
-    return res.status(400).send({ success: "false", message: "name is required", }); 
-  } 
-  else if (!req.body.companies) { 
-    return res.status(400).send({ success: "false", message: "companies is required", }); 
-  } 
-  const user = { id: userList.length + 1, isPublic: req.body.isPublic, name: req.body.name, companies: req.body.companies, books: req.body.books }; 
-  userList.push(user); 
-  return res.status(201).send({ success: "true", message: "user added successfully", user, });
+app.get('/', function(req, res) {
+  res.redirect('/api-docs');
 });
 
-console.log('Kafka Started');
+app.post('/inventory/update', (req, res) => { 
+  console.log('Inventory Update');
+  console.log("request", req);
+  console.log("KAFKA", kafkaFunctions);
+  res.send("POST Request Called"); 
+});
+
+app.get('/api/test', (req, res) => { 
+  console.log('TEST');
+  res.send("POST Request Called"); 
+}) 
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
