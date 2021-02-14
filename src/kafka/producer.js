@@ -4,7 +4,7 @@ const config = require('../config/kafkaConnection');
 const kafka = new Kafka(config);
 // 2.Creating Kafka Producer
 const producer = kafka.producer();
-const runProducer = async () => {
+async function runProducer() {
     const message = {
         nTransOrderID: 1000,
         sTransOrderCode: "TO-101212"
@@ -22,3 +22,5 @@ await producer.disconnect()
 
 console.log('Sending Messages');
 runProducer();
+
+module.exports = runProducer;

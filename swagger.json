@@ -1,0 +1,35 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+       "title": "Inventory Service with Kafka",
+       "description": "API for updating the Inventory Service.",
+       "version": "1.0.0"
+    },
+    "servers": [
+       {
+          "url": "http://localhost:3000"
+       }
+    ],
+    "paths": {
+        "/updateInventory":{
+            "post":{
+                "tags":[
+                    "Inventory Actions"
+                ],
+                "summary": "Updates the Inventory using Kafka",
+                "responses":{
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            
+                        } 
+                    }, 
+                    "400": {
+                        "description": "Error"
+                        }
+                    }
+                }
+            }
+    },
+    "components": {}
+ }
