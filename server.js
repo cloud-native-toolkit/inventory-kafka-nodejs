@@ -16,7 +16,7 @@ app.post('/inventory/update', (req, res) => {
   console.log('Inventory Update')
   console.log(req)
   console.log('KAFKA', kafkaFunctions)
-  kafkaFunctions
+  kafkaFunctions();
   res.send('Inventory Update Called')
 })
 

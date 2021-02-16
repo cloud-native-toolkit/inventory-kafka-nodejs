@@ -6,9 +6,10 @@ const kafka = new Kafka(config)
 const producer = kafka.producer()
 
 async function runProducer () {
+  console.log('RUN PRODUCER');
   const message = {
-    nTransOrderID: 1000,
-    sTransOrderCode: 'TO-101212'
+    books: 10,
+    trees: 'TO-101212'
   }
   await producer.connect()
   await producer.send({
