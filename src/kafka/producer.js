@@ -15,7 +15,7 @@ async function runProducer () {
   await producer.send({
     topic: 'test-topic',
     messages:
-            [{ value: JSON.stringify(message) }]
+          [{ value: JSON.stringify(message) }]
   })
   console.log('Message Produced')
   await producer.disconnect()
