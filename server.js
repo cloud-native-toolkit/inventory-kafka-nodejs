@@ -15,9 +15,34 @@ app.get('/', function (req, res) {
 
 app.post("/inventory/update", (req, res) => {
   try {
-    console.log(req.body);
+    if(req.body.hasOwnProperty('id') == false){
+      res.status(500);
+      res.send("ERROR: Missing the id Parameter");
+      return;
+    }
+    if(req.body.hasOwnProperty('name') == false){
+      res.status(500);
+      res.send("ERROR: Missing the Name Parameter");
+      return;
+    }
+    if(req.body.hasOwnProperty('price') == false){
+      res.status(500);
+      res.send("ERROR: Missing the Price Parameter");
+      return;
+    }
+    if(req.body.hasOwnProperty('stock') == false){
+      res.status(500);
+      res.send("ERROR: Missing the Stock Parameter");
+      return;
+    }
+    if(req.body.hasOwnProperty('manufacturer') == false){
+      res.status(500);
+      res.send("ERROR: Missing the Manufacturer Parameter");
+      return;
+    }
+    console.log("Parameters Met");
     kafkaFunctions(req.body);
-    res.send('Inventory Update Called')
+    res.send('Inventory Update Sent')
   } catch (error) {
     res.status(500).json(error);
   }
