@@ -9,11 +9,12 @@ async function runProducer (input) {
   console.log('RUN PRODUCER', input);
   const message = input
   await producer.connect()
-  await producer.send({
+await producer.send({
     topic: 'test-topic',
-    messages:
-          [{ value: JSON.stringify(message) }]
-  })
+    messages: [
+        { key: 'update1', value: input.toString() }
+    ],
+})
   console.log('Message Produced')
   await producer.disconnect()
 }
