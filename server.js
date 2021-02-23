@@ -7,22 +7,20 @@ const swaggerUi = require('swagger-ui-express')
 const swaggerDocument = require('./swagger.json')
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+app.use(express.json());
 
 app.get('/', function (req, res) {
   res.redirect('/api-docs')
 })
 
-app.post('/inventory/update', (req, res) => {
-  console.log('Inventory Update')
-  console.log(req)
-  console.log('KAFKA', kafkaFunctions)
-  kafkaFunctions();
-  res.send('Inventory Update Called')
-})
-
-app.get('/api/test', (req, res) => {
-  console.log('TEST')
-  res.send('TEST Request Called')
+app.post("/inventory/update", (req, res) => {
+  try {
+    console.log(req.body);
+    kafkaFunctions(req.body);
+    res.send('Inventory Update Called')
+  } catch (error) {
+    res.status(500).json(error);
+  }
 })
 
 app.listen(port, () => {

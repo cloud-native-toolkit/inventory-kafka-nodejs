@@ -1,59 +1,68 @@
 {
-    "openapi": "3.0.1",
-    "info": {
-       "title": "Inventory Service with Kafka",
-       "description": "API for updating the Inventory Service.",
-       "version": "1.0.0"
-    },
-    "servers": [
-       {
-          "url": "http://localhost:3000"
-       }
-    ],
-    "paths": {
-        "/inventory/update":{
-            "post":{
-                "tags":[
-                    "Inventory Actions"
-                ],
-                "summary": "Updates the Inventory using Kafka",
-                "parameters": [
-                    {
-                       "in": "body",
-                       "name": "user",
-                       "description": "The user to create.",
-                       "schema": {
-                          "type": "object",
-                          "required": [
-                             "userName"
-                          ],
-                          "properties": {
-                             "userName": {
-                                "type": "string"
-                             },
-                             "firstName": {
-                                "type": "string"
-                             },
-                             "lastName": {
-                                "type": "string"
-                             }
-                          }
-                       }
-                    }
-                 ],
-                "responses":{
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            
-                        } 
-                    }, 
-                    "400": {
-                        "description": "Error"
-                        }
-                    }
-                }
+   "openapi": "3.0.1",
+   "info": {
+      "title": "Inventory Service with Kafka",
+      "description": "API for updating the Inventory Service.",
+      "version": "1.0.0"
+   },
+   "servers": [
+      {
+         "url": "http://localhost:3000"
+      }
+   ],
+   "paths": {
+      "/inventory/update": {
+         "post": {
+            "summary": "Updates the Inventory using Kafka",
+            "requestBody": {
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "$ref": "#/components/schemas/Item"
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "200": {
+                  "description": "Inventory Updated"
+               },
+               "501": {
+                  "description": "Error with Request"
+               }
             }
-    },
-    "components": {}
- }
+         }
+      }
+   },
+   "components": {
+      "schemas": {
+         "Item": {
+            "properties": {
+               "id": {
+                  "type": "integer"
+               },
+               "name": {
+                  "type": "string"
+               },
+               "stock": {
+                  "type": "integer"
+               },
+               "price": {
+                  "type": "number",
+                  "format": "double"
+               },
+               "manufacturer": {
+                  "type": "string"
+               }
+            },
+            "required": [
+               "id",
+               "name",
+               "stock",
+               "price",
+               "manufacturer"
+            ]
+         }
+      }
+   }
+}
