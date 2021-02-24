@@ -41,7 +41,8 @@ app.post("/inventory/update", (req, res) => {
       return;
     }
     console.log("Parameters Met");
-    kafkaFunctions(req.body);
+    console.log(req.url);
+    kafkaFunctions(req.body, req.url);
     res.send('Inventory Update Sent')
   } catch (error) {
     res.status(500).json(error);

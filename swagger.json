@@ -13,7 +13,7 @@
    "paths": {
       "/inventory/update": {
          "post": {
-            "summary": "Updates the Inventory using Kafka",
+            "summary": "Updates the Inventory using Kafka and CloudEvents",
             "requestBody": {
                "content": {
                   "application/json": {
@@ -30,7 +30,10 @@
                "501": {
                   "description": "Error with Request"
                }
-            }
+            },
+            "tags": [
+               "Inventory Actions"
+            ]
          }
       }
    },
