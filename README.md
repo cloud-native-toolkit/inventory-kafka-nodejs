@@ -28,9 +28,6 @@ npm run dev
 
 Access the swagger page via `https:localhost:3000`
 
-### Data Structure
-
-
 ### Contributors
 
 - Bryan Kribbs (bakribbs@us.ibm.com)
