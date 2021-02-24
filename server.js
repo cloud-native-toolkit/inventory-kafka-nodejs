@@ -40,9 +40,8 @@ app.post("/inventory/update", (req, res) => {
       res.send("ERROR: Missing the Manufacturer Parameter");
       return;
     }
-    console.log("Parameters Met");
-    console.log(req.url);
-    kafkaFunctions(req.body, req.url);
+    const messageOrigin = req.headers.host + req.url;
+    kafkaFunctions(req.body, messageOrigin);
     res.send('Inventory Update Sent')
   } catch (error) {
     res.status(500).json(error);

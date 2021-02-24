@@ -1,5 +1,5 @@
 module.exports = {
-clientId: 'nodeJS-medium-kafka-example',
+clientId: 'inventory-service-client',
 kafka_topic: 'test-topic',
 brokers: ['localhost:9092'],
 connectionTimeout: 3000,
