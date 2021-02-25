@@ -18,7 +18,7 @@ async function runProducer (input, sourceURL) {
     "content-type": "application/json" };
   await producer.connect()
   await producer.send({
-      topic: 'test-topic',
+      topic: config.kafka_topic,
       messages: [
           { headers: headers , value: input.toString() }
       ],
