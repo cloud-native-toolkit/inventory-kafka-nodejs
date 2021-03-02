@@ -5,9 +5,29 @@ const kafkaFunctions = require('./src/kafka/producer.js')
 
 const swaggerUi = require('swagger-ui-express')
 const swaggerDocument = require('./swagger.json')
+const expressJSDocSwagger = require('express-jsdoc-swagger');
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.use(express.json());
+
+const options = {
+  definition: {
+    "openapi": "3.0.1",
+    "info": {
+       "title": "Inventory Service with Kafka",
+       "description": "API for updating the Inventory Service.",
+       "version": "1.0.0"
+    },
+    "servers": [
+       {
+          "url": "http://localhost:3000"
+       }
+    ],
+  },
+  apis: ['./src/routes*.js'], // files containing annotations as above
+};
+
+const openapiSpecification = await swaggerJsdoc(options);
 
 app.get('/', function (req, res) {
   res.redirect('/api-docs')
