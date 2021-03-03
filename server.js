@@ -1,12 +1,13 @@
 import express from 'express'
+import http from 'http'
 const app = express()
-app.use(express.json());
+const server = http.createServer(app);
 const port = process.env.PORT || 3000
-import runProducer from './src/kafka/producer.js'
 
+import runProducer from './src/kafka/producer.js'
 import swaggerUi  from 'swagger-ui-express';
-//const swaggerDocument = require('./swagger.json')
 import swaggerJsdoc from 'swagger-jsdoc';
+
 const swaggerDefinition = {
   "openapi": '3.0.1',
   "info": {
@@ -26,7 +27,7 @@ const options = {
   apis: ['./server.js']
 };
 const swaggerSpec = await swaggerJsdoc(options);
-
+app.use(express.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.get('/', function (req, res) {
   res.redirect('/api-docs')
@@ -142,6 +143,7 @@ app.post("/inventory/update", (req, res) => {
   }
 })
 
-const server = app.listen(port, () => {
-  console.log('Example app listening at http://localhost:%s', port);
-})
+server.listen(3000, 'localhost');
+server.on('listening', function() {
+    console.log('Express server started on port %s at %s', server.address().port, server.address().address);
+});
