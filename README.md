@@ -9,13 +9,13 @@ Install the application dependencies by running the following:
 ```bash
 npm install
 ```
-#### Running Kafka
+### Running Kafka
 
 Make sure you have an instance of kafka running either locally or remotely.
 
 Following the instruction [here](https://kafka.apache.org/quickstart) for running kafka locally.
 
-#### Kafka Configuration
+### Kafka Configuration
 
 Modify the [Kafka Configuration Code](./src/config/kafkaConnection) to match your Kafka configuration in order for your application to properly communicate with your Kafka instance.
 ### Local Development
