@@ -9,7 +9,10 @@ Install the application dependencies by running the following:
 ```bash
 npm install
 ```
-### Running Kafka
+
+<h2 align="Left">
+Running Kafka
+</h2>
 
 Make sure you have an instance of kafka running either locally or remotely.
 
