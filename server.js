@@ -135,7 +135,6 @@ app.post("/inventory/update", (req, res) => {
     }
     const messageOrigin = req.headers.host + req.url;
     console.log('MESSAGE', messageOrigin);
-    console.log(runProducer);
     runProducer.runProducer(req.body, messageOrigin);
     res.send('Inventory Update Sent')
   } catch (error) {
