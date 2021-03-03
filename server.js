@@ -34,7 +34,8 @@ app.get('/', function (req, res) {
 
 /**
  * @swagger
- * definitions:
+ * components:
+ *  schemas:
  *   Item:
  *     required:
  *       - id
@@ -93,7 +94,7 @@ app.get('/api/healthcheck', function (req, res) {
    *        content:
    *          application/json:
    *            schema:
-   *              $ref: '#/definitions/Item'
+   *              $ref: '#/components/schemas/Item'
    *     responses:
    *       '200':
    *         description: Inventory Updated
