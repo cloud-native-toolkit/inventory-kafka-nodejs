@@ -106,6 +106,7 @@ app.get('/api/healthcheck', function (req, res) {
 
 
 app.post("/inventory/update", (req, res) => {
+  console.log('IN UPDATE');
   try {
     if(req.body.hasOwnProperty('id') == false){
       res.status(500);
@@ -133,7 +134,9 @@ app.post("/inventory/update", (req, res) => {
       return;
     }
     const messageOrigin = req.headers.host + req.url;
-    runProducer(req.body, messageOrigin);
+    console.log('MESSAGE', messageOrigin);
+    console.log(runProducer);
+    runProducer.runProducer(req.body, messageOrigin);
     res.send('Inventory Update Sent')
   } catch (error) {
     res.status(500).json(error);
