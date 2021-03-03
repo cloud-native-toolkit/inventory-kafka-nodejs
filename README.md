@@ -36,7 +36,7 @@ To start the server run:
 npm run dev
 ```
 
-Access the swagger page via `https:localhost:3000`
+Access the swagger page via `http:localhost:3000`
 
 <h2 align="Left">
 Contributors
