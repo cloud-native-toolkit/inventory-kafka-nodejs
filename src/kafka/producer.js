@@ -1,5 +1,5 @@
-const { Kafka } = require('kafkajs')
-const config = require('../config/kafkaConnection')
+import { Kafka } from  'kafkajs'
+import config from '../config/kafkaConnection.js'
 
 const kafka = new Kafka(config)
 // 2.Creating Kafka Producer
@@ -27,4 +27,4 @@ async function runProducer (input, sourceURL) {
   await producer.disconnect()
 }
 
-module.exports = runProducer
+export default { runProducer }
