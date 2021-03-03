@@ -8,6 +8,7 @@ import swaggerUi  from 'swagger-ui-express';
 //const swaggerDocument = require('./swagger.json')
 import swaggerJsdoc from 'swagger-jsdoc';
 const swaggerDefinition = {
+  "openapi": '3.0.1',
   "info": {
     "title": "Inventory Service with Kafka",
     "description": "API for updating the Inventory Service.",
@@ -63,6 +64,8 @@ app.get('/', function (req, res) {
    *     responses:
    *       200:
    *         description: OK
+   *     tags:
+   *      - Health
    */
 
 app.get('/api/healthcheck', function (req, res) {
@@ -82,18 +85,19 @@ app.get('/api/healthcheck', function (req, res) {
 
 /**
    * @swagger
-   * /inventory/update:
-   *   post:
+   *  /inventory/update:
+   *    post:
    *     summary: Updates the Inventory using Kafka and CloudEvents
    *     requestBody:
-   *      content:
-   *        application/json:
-   *          schema:
-   *            $ref: '#/definitions/Item'
+   *        required: true
+   *        content:
+   *          application/json:
+   *            schema:
+   *              $ref: '#/definitions/Item'
    *     responses:
-   *       200:
+   *       '200':
    *         description: Inventory Updated
-   *       501:
+   *       '501':
    *         description: Error with Request
    *     tags:
    *      - Inventory Actions
