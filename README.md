@@ -39,6 +39,12 @@ npm run dev
 Access the swagger page via `http:localhost:3000`
 
 <h2 align="Left">
+OpenShift Deployment
+</h2>
+
+Deploying to Openshift...
+
+<h2 align="Left">
 Contributors
 </h2>
 
