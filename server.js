@@ -143,7 +143,8 @@ app.post("/inventory/update", (req, res) => {
   }
 })
 
-server.listen(3000, 'localhost');
+//Server Config
+server.listen(3000);
 server.on('listening', function() {
     console.log('Express server started on port %s at %s', server.address().port, server.address().address);
 });
