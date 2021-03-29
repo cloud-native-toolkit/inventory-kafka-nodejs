@@ -1,0 +1,21 @@
+components:
+  schemas:
+  Item:
+    required:
+      - id
+      - name
+      - stock
+      - price
+      - manufacturer
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      stock:
+        type: integer
+      price:
+        type: integer
+        format: double
+      manufacturer:
+        type: string

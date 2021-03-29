@@ -1,12 +1,15 @@
-import express from 'express'
-import http from 'http'
+const express = require('express');
+const http = require('http');
 const app = express()
 const server = http.createServer(app);
 const port = process.env.PORT || 3000
 
-import runProducer from './src/kafka/producer.js'
-import swaggerUi  from 'swagger-ui-express';
-import swaggerJsdoc from 'swagger-jsdoc';
+const healthRoute = require('./src/routes/health-route')
+const inventoryRoute = require('./src/routes/inventory-route')
+
+const runProducer = require('./src/kafka/producer.js')
+const swaggerUi  = require('swagger-ui-express');
+const swaggerJsdoc = require('swagger-jsdoc');
 
 const swaggerDefinition = {
   "openapi": '3.0.1',
@@ -24,9 +27,9 @@ const options = {
   swaggerDefinition,
   // Path to the API docs
   // Note that this path is relative to the current directory from which the Node.js is ran, not the application itself.
-  apis: ['./server.js']
+  apis: ['./src/routes/*', './src/parameters/*']
 };
-const swaggerSpec = await swaggerJsdoc(options);
+const swaggerSpec = swaggerJsdoc(options);
 
 app.use(express.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
@@ -34,115 +37,8 @@ app.get('/', function (req, res) {
   res.redirect('/api-docs')
 })
 
-/**
- * @swagger
- * components:
- *  schemas:
- *   Item:
- *     required:
- *       - id
- *       - name
- *       - stock
- *       - price
- *       - manufacturer
- *     properties:
- *       id:
- *         type: integer
- *       name:
- *         type: string
- *       stock:
- *         type: integer
- *       price:
- *         type: integer
- *         format: double
- *       manufacturer:
- *         type: string
- */
-
-/**
-   * @swagger
-   * /api/healthcheck:
-   *   get:
-   *     description: Returns a Response for the HealthCheck
-   *     responses:
-   *       200:
-   *         description: OK
-   *     tags:
-   *      - Health
-   */
-
-app.get('/api/healthcheck', function (req, res) {
-  console.log('HC');
-  const healthcheck = {
-		uptime: process.uptime(),
-		message: 'OK',
-		timestamp: Date.now()
-	};
-	try {
-		res.send(healthcheck);
-	} catch (e) {
-		healthcheck.message = e;
-		res.status(503).send();
-	}
-})
-
-/**
-   * @swagger
-   *  /inventory/update:
-   *    post:
-   *     summary: Updates the Inventory using Kafka and CloudEvents
-   *     requestBody:
-   *        required: true
-   *        content:
-   *          application/json:
-   *            schema:
-   *              $ref: '#/components/schemas/Item'
-   *     responses:
-   *       '200':
-   *         description: Inventory Updated
-   *       '501':
-   *         description: Error with Request
-   *     tags:
-   *      - Inventory Actions
-   */
-
-
-app.post("/inventory/update", (req, res) => {
-  console.log('IN UPDATE');
-  try {
-    if(req.body.hasOwnProperty('id') == false){
-      res.status(500);
-      res.send("ERROR: Missing the id Parameter");
-      return;
-    }
-    if(req.body.hasOwnProperty('name') == false){
-      res.status(500);
-      res.send("ERROR: Missing the Name Parameter");
-      return;
-    }
-    if(req.body.hasOwnProperty('price') == false){
-      res.status(500);
-      res.send("ERROR: Missing the Price Parameter");
-      return;
-    }
-    if(req.body.hasOwnProperty('stock') == false){
-      res.status(500);
-      res.send("ERROR: Missing the Stock Parameter");
-      return;
-    }
-    if(req.body.hasOwnProperty('manufacturer') == false){
-      res.status(500);
-      res.send("ERROR: Missing the Manufacturer Parameter");
-      return;
-    }
-    const messageOrigin = req.headers.host + req.url;
-    console.log('MESSAGE', messageOrigin);
-    runProducer.runProducer(req.body, messageOrigin);
-    res.send('Inventory Update Sent')
-  } catch (error) {
-    res.status(500).json(error);
-  }
-})
+healthRoute.setup(app);
+inventoryRoute.setup(app);
 
 //Server Config
 server.listen(3000);

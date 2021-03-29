@@ -7,4 +7,4 @@ authenticationTimeout: 1000,
 reauthenticationThreshold: 10000,
 };
 
-export default config
+exports.config = config
