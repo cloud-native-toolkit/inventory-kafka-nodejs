@@ -76,10 +76,14 @@ app.post("/inventory/update", (req, res) => {
     }
     const messageOrigin = req.headers.host + req.url;
     console.log('MESSAGE', messageOrigin);
-    runProducer.runProducer(req.body, messageOrigin);
-    res.send('Inventory Update Sent')
+    try{
+      runProducer.runProducer(req.body, messageOrigin);
+    } catch(err) {
+      console.error('ROUTE ERROR', err);
+      return res.status(501).send(err);
+    }
   } catch (error) {
-    res.status(500).json(error);
+    res.status(501).json(error);
   }
 })
   };
