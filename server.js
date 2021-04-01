@@ -7,7 +7,6 @@ const port = process.env.PORT || 3000
 const healthRoute = require('./src/routes/health-route')
 const inventoryRoute = require('./src/routes/inventory-route')
 
-const runProducer = require('./src/kafka/producer.js')
 const swaggerUi  = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 
