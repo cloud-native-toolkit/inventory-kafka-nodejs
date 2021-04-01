@@ -74,7 +74,7 @@ app.post("/inventory/update", async(req, res) => {
     console.log('MESSAGE', messageOrigin);
     try{
       await runProducer.runProducer(req.body, messageOrigin);
-      res.send('Inventory Update Published');
+      res.send('Inventory Update Published' + '\n' + JSON.stringify(req.body));
     } catch(err) {
       console.error('ROUTE ERROR', err);
       if(err == "Error: Cannot Connect to Broker"){
