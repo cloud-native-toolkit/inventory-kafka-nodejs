@@ -78,7 +78,7 @@ app.post("/inventory/update", async(req, res) => {
     } catch(err) {
       console.error('ROUTE ERROR', err);
       if(err == "Error: Cannot Connect to Broker"){
-        res.status(504).send('Unable to Connect to Kafka Broker.');
+        res.status(504).send('Unable to Connect to Messaging System.');
       } else {
         res.status(502).send('Error');
       }
