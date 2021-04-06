@@ -27,9 +27,15 @@ async function runProducer (input, sourceURL) {
     console.log('Message Produced');
     await producer.disconnect()
   } catch(e) {
-    console.log('E VALUE', e);
-    const err = new Error('Cannot Connect to Broker');
-    throw err;
+    console.log('E VALUE', JSON.stringify(e));
+    console.log(e.originalError.name);
+    if(e.originalError.name == 'KafkaJSConnectionError'){
+      const err = new Error('Cannot Connect to Broker');
+      throw err;
+    }else {
+      const err = new Error('Other Error');
+      throw err;
+    }
   }
 }
 
