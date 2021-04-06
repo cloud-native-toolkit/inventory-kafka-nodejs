@@ -46,41 +46,42 @@ module.exports.setup = (app) => {
    */
 
 
-app.post("/inventory/update", (req, res) => {
+app.post("/inventory/update", async(req, res) => {
   console.log('IN UPDATE');
   try {
     if(req.body.hasOwnProperty('id') == false){
-      res.status(500);
-      res.send("ERROR: Missing the id Parameter");
+      res.status(400).send("ERROR: Missing the id Parameter");
       return;
     }
     if(req.body.hasOwnProperty('name') == false){
-      res.status(500);
-      res.send("ERROR: Missing the Name Parameter");
+      res.status(400).send("ERROR: Missing the Name Parameter");
       return;
     }
     if(req.body.hasOwnProperty('price') == false){
-      res.status(500);
-      res.send("ERROR: Missing the Price Parameter");
+      console.log('Missing Price');
+      res.status(400).send("ERROR: Missing the Price Parameter");
       return;
     }
     if(req.body.hasOwnProperty('stock') == false){
-      res.status(500);
-      res.send("ERROR: Missing the Stock Parameter");
+      res.status(400).send("ERROR: Missing the Stock Parameter");
       return;
     }
     if(req.body.hasOwnProperty('manufacturer') == false){
-      res.status(500);
-      res.send("ERROR: Missing the Manufacturer Parameter");
+      res.status(400).send('ERROR: Missing the Manufacturer Parameter');
       return;
     }
     const messageOrigin = req.headers.host + req.url;
     console.log('MESSAGE', messageOrigin);
     try{
-      runProducer.runProducer(req.body, messageOrigin);
+      await runProducer.runProducer(req.body, messageOrigin);
+      res.send('Inventory Update Published' + '\n' + JSON.stringify(req.body));
     } catch(err) {
       console.error('ROUTE ERROR', err);
-      return res.status(501).send(err);
+      if(err == "Error: Cannot Connect to Broker"){
+        res.status(504).send('Unable to Connect to Messaging System.');
+      } else {
+        res.status(502).send('Error');
+      }
     }
   } catch (error) {
     res.status(501).json(error);

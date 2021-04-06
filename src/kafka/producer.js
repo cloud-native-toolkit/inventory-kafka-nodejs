@@ -1,14 +1,12 @@
 const { response } = require('express');
 const { Kafka } = require('kafkajs');
-const config = require('../config/kafkaConnection.js');
+const kafkaConnection = require('../config/kafkaConnection');
 
-const kafka = new Kafka(config)
-// 2.Creating Kafka Producer
+const kafka = new Kafka(kafkaConnection.config)
 const producer = kafka.producer()
 
 async function runProducer (input, sourceURL) {
   console.log('RUN PRODUCER INPUT', input);
-  const message = input
   const type = "inventory.stock";
   const source = sourceURL
   const headers = { "ce_specversion": "1.0",
@@ -17,25 +15,27 @@ async function runProducer (input, sourceURL) {
     "ce_id": input.id.toString(),
     "ce_time": new Date().toISOString(),
     "content-type": "application/json" };
-  try{
+  try {
     await producer.connect()
     console.log('producer connected');
-  } catch(e) {
-    const err = new Error('Cannot Connect to Broker', e);
-    throw err;
-  }
-  try {
     await producer.send({
-      topic: config.kafka_topic,
+      topic: kafkaConnection.config.kafka_topic,
       messages: [
           { headers: headers , value: input.toString() }
       ],
-  })
-  console.log('Message Produced');
-  res.send('Inventory Update Published');
-  await producer.disconnect()
-  } catch(e){
-    console.error('Cannot Publish Message to Broker', e);
+    })
+    console.log('Message Produced');
+    await producer.disconnect()
+  } catch(e) {
+    console.log('E VALUE', JSON.stringify(e));
+    console.log(e.originalError.name);
+    if(e.originalError.name == 'KafkaJSConnectionError'){
+      const err = new Error('Cannot Connect to Broker');
+      throw err;
+    }else {
+      const err = new Error('Other Error');
+      throw err;
+    }
   }
 }
 
