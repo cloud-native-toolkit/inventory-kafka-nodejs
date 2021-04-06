@@ -1,4 +1,3 @@
-const { response } = require('express');
 const { Kafka } = require('kafkajs');
 const kafkaConnection = require('../config/kafkaConnection');
 
