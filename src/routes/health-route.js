@@ -3,6 +3,7 @@
    * @swagger
    * /api/healthcheck:
    *   get:
+   *     summary: Healthcheck for the application 
    *     description: Returns a Response for the HealthCheck
    *     responses:
    *       200:

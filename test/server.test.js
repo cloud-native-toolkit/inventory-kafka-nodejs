@@ -1,6 +1,5 @@
-//const producer = require('../kafka/producer');
 
-describe('Messaging Test Runs', () => {
+describe('Missing API Parameters', () => {
     it('Missing ID Parameter Test', () => {
       expect(true).toEqual(true);
     });

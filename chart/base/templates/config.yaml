@@ -1,1 +1,8 @@
-## Config Map YAML
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: messaging-broker-config
+data:
+  color: purple
+  how: fairlyNice
+  textmode: "true"
