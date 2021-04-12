@@ -9,7 +9,3 @@ data:
   connectionTimeout: "3000"
   authenticationTimeout: "1000"
   reauthenticationThreshold: "10000"
-  retry:
-    retries: "3"
-    maxRetryTime: "5"
-    
