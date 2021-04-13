@@ -41,7 +41,6 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-
           ports:
             - name: http
               containerPort: {{ .Values.image.port }}
@@ -72,9 +71,9 @@ spec:
       {{- end }}
       {{- with .Values.volumes }}
       volumes:
-        - name: config
+        - name: messagingConfig
           configMap:
-            name: {{ .Values.configMap }}
+            name: {{ .Values.configMap.name }}
     {{- with .Values.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
