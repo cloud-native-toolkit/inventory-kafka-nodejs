@@ -21,6 +21,7 @@ service:
 
 volumes:
   name: messagingConfig
+  
 configMap:
   name: messaging-broker-config
 
