@@ -3,11 +3,12 @@ kind: ConfigMap
 metadata:
   name: messaging-broker-config
 data:
-  clientId: "inventory-service-client"
-  kafka_topic: "testTopic-3"
-  brokers: "192.168.50.11:9092"
-  connectionTimeout: "3000"
-  authenticationTimeout: "1000"
-  reauthenticationThreshold: "10000"
-  retry.retries: "3"
-  retry.maxRetryTime: "5"
+  kafka.cfg: |-
+    clientId: "inventory-service-client"
+    kafka_topic: "testTopic-3"
+    brokers: "192.168.50.11:9092"
+    connectionTimeout: "3000"
+    authenticationTimeout: "1000"
+    reauthenticationThreshold: "10000"
+    retry.retries: "3"
+    retry.maxRetryTime: "5"
