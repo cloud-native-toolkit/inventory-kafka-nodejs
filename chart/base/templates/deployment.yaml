@@ -61,7 +61,7 @@ spec:
             - name: LOG_LEVEL
               value: {{ .Values.logLevel | quote }}
           volumeMounts:
-            - name: messagingConfig
+            - name: messagingconfig
               mountPath: "./config/kafkaConnection.js"
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
@@ -70,7 +70,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
-        - name: messagingConfig
+        - name: messagingconfig
           configMap:
             name: messaging-broker-config
     {{- with .Values.affinity }}
