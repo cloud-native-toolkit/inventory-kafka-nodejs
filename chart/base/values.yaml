@@ -19,6 +19,8 @@ service:
   type: ClusterIP
   port: 8080
 
+volumes:
+  name: messagingConfig
 configMap:
   name: messaging-broker-config
 
