@@ -9,5 +9,5 @@ data:
   connectionTimeout: {{ .Values.messageConfig.connectionTimeout }}
   authenticationTimeout: {{ .Values.messageConfig.authenticationTimeout }}
   reauthenticationThreshold: {{ .Values.messageConfig.reauthenticationThreshold }}
-  retry.retries: {{ .Values.messageConfig.retry.retries }}
-  retry.maxRetryTime: {{ .Values.messageConfig.retry.maxRetryTime }}
+  retry.retries: {{ .Values.messageConfig.retries }}
+  retry.maxRetryTime: {{ .Values.messageConfig.maxRetryTime }}
