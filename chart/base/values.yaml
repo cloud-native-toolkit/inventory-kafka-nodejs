@@ -39,15 +39,3 @@ ingress:
   namespaceInHost: true
   subdomain: containers.appdomain.cloud
   path: "/"
-
-#  tlsSecretName: ""
-
-vcsInfo:
-  repoUrl: ""
-  branch: ""
-
-partOf: ""
-
-connectsTo: ""
-
-runtime: ""
