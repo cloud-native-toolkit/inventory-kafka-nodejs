@@ -1,12 +1,10 @@
 FROM node:14
 
-COPY package*.json .
+COPY . /app
+
+WORKDIR /app
 
 RUN npm ci
-
-COPY /src /src
-
-COPY server.js .
 
 EXPOSE 3000
 

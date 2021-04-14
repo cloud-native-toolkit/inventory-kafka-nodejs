@@ -21,7 +21,7 @@ service:
 
 volumes:
   name: messagingConfig
-  
+
 configMap:
   name: messaging-broker-config
 
@@ -41,6 +41,16 @@ ingress:
   path: "/"
 
 #  tlsSecretName: ""
+
+messageConfig:
+  clientId: "inventory-service-client"
+  kafka_topic: "testTopic-3"
+  brokers: "192.168.50.11:9092"
+  connectionTimeout: "3000"
+  authenticationTimeout: "1000"
+  reauthenticationThreshold: "10000"
+  retry.retries: "3"
+  retry.maxRetryTime: "5"
 
 vcsInfo:
   repoUrl: ""
