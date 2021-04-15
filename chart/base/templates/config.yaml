@@ -6,7 +6,7 @@ data:
   kafka.cfg: |-
     clientId: "inventory-service-client"
     kafka_topic: "testTopic-3"
-    brokers: "192.168.50.11:9092"
+    brokers: "broker-5-ksnh3p2924qrgww7.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9093"
     connectionTimeout: "3000"
     authenticationTimeout: "1000"
     reauthenticationThreshold: "10000"
