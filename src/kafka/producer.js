@@ -1,5 +1,5 @@
 const { Kafka } = require('kafkajs');
-const kafkaConnection = require('../config/kafka');
+const kafkaConnection = require('../config/kafka.js');
 
 const kafka = new Kafka(kafkaConnection.config)
 const producer = kafka.producer()
