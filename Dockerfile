@@ -1,8 +1,8 @@
 FROM node:14
 
-COPY . /app
-
 WORKDIR /app
+
+COPY . .
 
 RUN npm ci
 
