@@ -9,7 +9,7 @@ logLevel: "debug"
 image:
   repository: quay.io/ibmgaragecloud/inventory-svc-kafka
   tag: latest
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   port: 3000
 
 nameOverride: ""
