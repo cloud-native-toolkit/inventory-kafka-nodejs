@@ -1,6 +1,6 @@
 const { Kafka } = require('kafkajs');
 const envConfig = require('dotenv').config();
-var messengerConfig = require('../config/kafkaLocalDefaults');
+var messengerConfig = require('../config/eventStreams');
 
 //Setting Messaging Config
 if(process.env.MESSAGE_CONFIG){
@@ -13,6 +13,7 @@ const kafka = new Kafka(messengerConfig)
 const producer = kafka.producer()
 
 async function runProducer (input, sourceURL) {
+  console.log('IN PRODUCER');
   const type = "inventory.stock";
   const source = sourceURL
   const headers = { "ce_specversion": "1.0",
@@ -21,9 +22,22 @@ async function runProducer (input, sourceURL) {
     "ce_id": input.id.toString(),
     "ce_time": new Date().toISOString(),
     "content-type": "application/json" };
-  try {
+  try{
+    console.log('Trying to Connect');
     await producer.connect()
     console.log('producer connected');
+  } catch(e) {
+    console.log('E VALUE', JSON.stringify(e));
+    console.log(e.name);
+    if(e.name == 'KafkaJSConnectionError'){
+      const err = new Error('Cannot Connect to Broker');
+      throw err;
+    }else {
+      const err = new Error('Other Error');
+      throw err;
+    }
+  }
+  try {
     console.log(messengerConfig.kafka_topic);
     await producer.send({
       topic: messengerConfig.kafka_topic,
@@ -37,7 +51,7 @@ async function runProducer (input, sourceURL) {
     console.log('E VALUE', JSON.stringify(e));
     console.log(e.originalError.name);
     if(e.originalError.name == 'KafkaJSConnectionError'){
-      const err = new Error('Cannot Connect to Broker');
+      const err = new Error('Error Producing Message');
       throw err;
     }else {
       const err = new Error('Other Error');
