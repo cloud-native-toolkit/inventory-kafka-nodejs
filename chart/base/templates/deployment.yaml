@@ -64,6 +64,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: {{ .Values.secret.name }}
+                  key: eventStreams.yaml
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
