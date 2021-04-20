@@ -1,9 +1,14 @@
 const { Kafka } = require('kafkajs');
-const kafkaConnection = require('../config/kafkaLocalDefaults');
 const envConfig = require('dotenv').config();
-//IF STATEMENT TO SET CONFIG
+const messengerConfig = require('../config/kafkaLocalDefaults');
 
-const messengerConfig = kafkaConnection;
+//Setting Messaging Config
+if(process.env.MESSAGE_CONFIG){
+  console.log(process.env.MESSAGE_CONFIG);
+  messengerConfig = process.env.MESSAGE_CONFIG;
+} else {
+  console.log('NO ES CONFIG USING LOCAL');
+}
 const kafka = new Kafka(messengerConfig)
 const producer = kafka.producer()
 
