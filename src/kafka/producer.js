@@ -1,6 +1,6 @@
 const { Kafka } = require('kafkajs');
 const envConfig = require('dotenv').config();
-const messengerConfig = require('../config/kafkaLocalDefaults');
+var messengerConfig = require('../config/kafkaLocalDefaults');
 
 //Setting Messaging Config
 if(process.env.MESSAGE_CONFIG){
