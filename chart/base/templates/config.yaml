@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: messaging-broker-config
 data:
-  kafka.cfg: |-
+  kafkaConfig.yaml: |-
     clientId: "inventory-service-client"
     kafka_topic: "testTopic-3"
     brokers: "broker-5-ksnh3p2924qrgww7.kafka.svc01.us-south.eventstreams.cloud.ibm.com:9093"

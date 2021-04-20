@@ -1,11 +1,12 @@
 const { Kafka } = require('kafkajs');
-const kafkaConnection = require('../config/kafka.js');
+const kafkaConnection = require('../config/kafkaLocalDefaults');
+//IF STATEMENT TO SET CONFIG
 
-const kafka = new Kafka(kafkaConnection.config)
+const messengerConfig = kafkaConnection;
+const kafka = new Kafka(messengerConfig)
 const producer = kafka.producer()
 
 async function runProducer (input, sourceURL) {
-  console.log('RUN PRODUCER INPUT', input);
   const type = "inventory.stock";
   const source = sourceURL
   const headers = { "ce_specversion": "1.0",
@@ -17,8 +18,9 @@ async function runProducer (input, sourceURL) {
   try {
     await producer.connect()
     console.log('producer connected');
+    console.log(messengerConfig.kafka_topic);
     await producer.send({
-      topic: kafkaConnection.config.kafka_topic,
+      topic: messengerConfig.kafka_topic,
       messages: [
           { headers: headers , value: input.toString() }
       ],
