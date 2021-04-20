@@ -25,6 +25,9 @@ volumes:
 configMap:
   name: messaging-broker-config
 
+secret:
+  name: messaging-config
+
 route:
   enabled: true
 

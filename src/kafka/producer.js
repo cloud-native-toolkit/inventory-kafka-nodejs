@@ -1,5 +1,6 @@
 const { Kafka } = require('kafkajs');
 const kafkaConnection = require('../config/kafkaLocalDefaults');
+const envConfig = require('dotenv').config();
 //IF STATEMENT TO SET CONFIG
 
 const messengerConfig = kafkaConnection;
