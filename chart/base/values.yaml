@@ -19,14 +19,8 @@ service:
   type: ClusterIP
   port: 8080
 
-volumes:
-  name: messagingConfig
-
-configMap:
-  name: messaging-broker-config
-
 secret:
-  name: messaging-config
+  name: messaging-broker-config
 
 route:
   enabled: true

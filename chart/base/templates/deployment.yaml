@@ -60,20 +60,16 @@ spec:
               value: ""
             - name: LOG_LEVEL
               value: {{ .Values.logLevel | quote }}
-          volumeMounts:
-            - name: messagingconfig
-              mountPath: "/app/config/"
-              readOnly: true
+            - name: MESSAGE_CONFIG
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      volumes:
-        - name: messagingconfig
-          secret:
-            secretName: messaging-broker-config
     {{- with .Values.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
