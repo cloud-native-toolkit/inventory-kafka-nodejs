@@ -8,7 +8,7 @@ logLevel: "debug"
 
 image:
   repository: quay.io/ibmgaragecloud/inventory-svc-kafka
-  tag: 1.0.1
+  tag: 1.0.2
   pullPolicy: Always
   port: 3000
 
