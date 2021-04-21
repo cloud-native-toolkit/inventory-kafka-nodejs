@@ -20,6 +20,7 @@ if (process.env.MESSAGE_CONFIG) {
       }
   }
     opts.calocation = '/etc/ssl/certs';
+    console.log('OPTS', opts);
 
 } else {
   console.log('Using Local Config');
