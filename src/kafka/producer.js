@@ -1,15 +1,33 @@
 const { Kafka } = require('kafkajs');
-const envConfig = require('dotenv').config();
-var messengerConfig = require('../config/eventStreams');
+var opts = {};
+var services;
+//FILL IN CONFIG FROM SAMPLE
+if (process.env.MESSAGE_CONFIG) {
+  console.log("Using VCAP_SERVICES to find credentials.");
+  
+  services = JSON.parse(process.env.MESSAGE_CONFIG);
+  console.log(services);
+  if (services.hasOwnProperty('instance_id')) {
+    opts.brokers = services.kafka_brokers_sasl;
+    opts.api_key = services.api_key;
+  } else {
+    for (var key in services) {
+      if (key.lastIndexOf('messagehub', 0) === 0) {
+          eventStreamsService = services[key][0];
+          opts.brokers = eventStreamsService.credentials.kafka_brokers_sasl;
+          opts.api_key = eventStreamsService.credentials.api_key;
+          }
+      }
+  }
+    opts.calocation = '/etc/ssl/certs';
 
-//Setting Messaging Config
-if(process.env.MESSAGE_CONFIG){
-  console.log(process.env.MESSAGE_CONFIG);
-  messengerConfig = process.env.MESSAGE_CONFIG;
 } else {
-  console.log('NO ES CONFIG USING LOCAL');
+  console.log('Using Local Config');
+  var messengerConfig = require('../config/eventStreams');
+  opts = messengerConfig;
 }
-const kafka = new Kafka(messengerConfig)
+
+const kafka = new Kafka(opts)
 const producer = kafka.producer()
 
 async function runProducer (input, sourceURL) {
