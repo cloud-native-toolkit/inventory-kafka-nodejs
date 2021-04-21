@@ -23,7 +23,8 @@ if (process.env.MESSAGE_CONFIG) {
 
 } else {
   console.log('Using Local Config');
-  var messengerConfig = require('../config/eventStreams');
+  var messengerConfig = require('../config/kafkaLocalDefaults');
+  console.log('MC', messengerConfig);
   opts = messengerConfig;
 }
 
