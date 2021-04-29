@@ -2,12 +2,7 @@ require('dotenv').config()
 const fs = require('fs')
 const config = require('../env/config');
 const { Kafka } = require('kafkajs');
-
-
-fs.readFile("../env/confluentCA.pem", "ascii", function (pemContents) {
-  console.log('PEM',pemContents);
-});
-
+var pemPath = __dirname + '/confluentCA.pem';
 
 //Config Setup
 console.log('CONF', config, '\n');
@@ -20,7 +15,7 @@ var opts = {
   reauthenticationThreshold: 10000,
   ssl: {
     rejectUnauthorized: false,
-    //ca: fs.readFileSync('../env/confluentCA.pem', 'utf-8')
+    ca: fs.readFileSync(pemPath, 'utf-8')
   },
   sasl: {
     mechanism: config.kafka.SASLMECH, // scram-sha-256 or scram-sha-512
@@ -33,7 +28,7 @@ var opts = {
  }
 }
 console.log('OPTS', opts, '\n');
-
+var topic = config.kafka.TOPIC;
 const kafka = new Kafka(opts)
 const producer = kafka.producer()
 
@@ -47,25 +42,26 @@ async function runProducer (input, sourceURL) {
     "ce_id": input.id.toString(),
     "ce_time": new Date().toISOString(),
     "content-type": "application/json" };
-  try{
+  try {
     console.log('Trying to Connect');
     await producer.connect()
     console.log('producer connected');
   } catch(e) {
-    console.log('E VALUE', JSON.stringify(e));
-    console.log(e.name);
-    if(e.name == 'KafkaJSConnectionError'){
-      const err = new Error('Cannot Connect to Broker');
-      throw err;
-    }else {
-      const err = new Error('Other Error');
-      throw err;
-    }
+      console.log('E VALUE', JSON.stringify(e));
+      console.log(e.name);
+      if(e.name == 'KafkaJSConnectionError'){
+        const err = new Error('Cannot Connect to Broker');
+        throw err;
+      } else {
+        const err = new Error('Other Error');
+        throw err;
+      }
   }
   try {
-    console.log(messengerConfig.kafka_topic);
+    console.log('Producing Message');
+    console.log('MESSAGE INFO', topic, headers, input.toString);
     await producer.send({
-      topic: messengerConfig.kafka_topic,
+      topic: topic,
       messages: [
           { headers: headers , value: input.toString() }
       ],
@@ -73,7 +69,7 @@ async function runProducer (input, sourceURL) {
     console.log('Message Produced');
     await producer.disconnect()
   } catch(e) {
-    console.log('E VALUE', JSON.stringify(e));
+    console.log('PRODUCING MESSAGE ERROR', JSON.stringify(e));
     console.log(e.originalError.name);
     if(e.originalError.name == 'KafkaJSConnectionError'){
       const err = new Error('Error Producing Message');
