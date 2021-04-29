@@ -79,7 +79,9 @@ app.post("/inventory/update", async(req, res) => {
     } catch(err) {
       console.error('ROUTE ERROR', err);
       if(err == "Error: Cannot Connect to Broker"){
-        res.status(504).send('Unable to Connect to Messaging System.');
+        res.status(504).send('Unable to Connect to Messaging System.'); 
+      } else if (err == "Error: Error Producing Message") {
+        console.log('IN ROUT', err);
       } else {
         res.status(502).send('Error');
       }

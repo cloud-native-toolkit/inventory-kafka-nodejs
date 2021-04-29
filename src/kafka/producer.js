@@ -42,12 +42,14 @@ async function runProducer (input, sourceURL) {
     "ce_id": input.id.toString(),
     "ce_time": new Date().toISOString(),
     "content-type": "application/json" };
+
+// Connecting to the Broker Block
   try {
     console.log('Trying to Connect');
     await producer.connect()
     console.log('producer connected');
   } catch(e) {
-      console.log('E VALUE', JSON.stringify(e));
+      console.error('Connection Error', JSON.stringify(e));
       console.log(e.name);
       if(e.name == 'KafkaJSConnectionError'){
         const err = new Error('Cannot Connect to Broker');
@@ -57,9 +59,10 @@ async function runProducer (input, sourceURL) {
         throw err;
       }
   }
+
+// Producing the Message Block
   try {
     console.log('Producing Message');
-    console.log('MESSAGE INFO', topic, headers, input.toString);
     await producer.send({
       topic: topic,
       messages: [
@@ -69,10 +72,10 @@ async function runProducer (input, sourceURL) {
     console.log('Message Produced');
     await producer.disconnect()
   } catch(e) {
-    console.log('PRODUCING MESSAGE ERROR', JSON.stringify(e));
+    console.log('Message Producing Error', JSON.stringify(e));
     console.log(e.originalError.name);
-    if(e.originalError.name == 'KafkaJSConnectionError'){
-      const err = new Error('Error Producing Message');
+    if(e.originalError.name == 'KafkaJSProtocolError'){
+      const err = new Error('Error Producing Message: '+ e.type);
       throw err;
     }else {
       const err = new Error('Other Error');
