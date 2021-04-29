@@ -7,7 +7,6 @@ var pemPath = __dirname + '/confluentCA.pem';
 //Config Setup
 console.log('CONF', config, '\n');
 var opts = {
-  logLevel: 'debug',
   clientId: config.kafka.CLIENTID,
   brokers: config.kafka.BROKERS,
   authenticationTimeout: 100000,
@@ -47,7 +46,7 @@ async function runProducer (input, sourceURL) {
   try {
     console.log('Trying to Connect');
     await producer.connect()
-    console.log('producer connected');
+    console.log('Producer Connected');
   } catch(e) {
       console.error('Connection Error', JSON.stringify(e));
       console.log(e.name);
@@ -72,10 +71,10 @@ async function runProducer (input, sourceURL) {
     console.log('Message Produced');
     await producer.disconnect()
   } catch(e) {
-    console.log('Message Producing Error', JSON.stringify(e));
-    console.log(e.originalError.name);
+    var errorData = JSON.stringify('{ "name":'+ e.originalError.name + ', "type":' + e.originalError.type + ', "cause": "This server does not host this topic-partition" }');
+    console.log('\n' + 'Message Producing Error', errorData + '\n');
     if(e.originalError.name == 'KafkaJSProtocolError'){
-      const err = new Error('Error Producing Message: '+ e.type);
+      const err = new Error('Error Producing Message:'+ errorData);
       throw err;
     }else {
       const err = new Error('Other Error');

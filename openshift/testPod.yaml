@@ -7,7 +7,7 @@ metadata:
 spec:
   containers:
     - name: nodejs-pod
-      image: quay.io/ibmgaragecloud/inventory-svc-kafka:1.0.2
+      image: quay.io/ibmgaragecloud/inventory-svc-kafka:dev
       ports:
       - containerPort: 3000
         name: http

@@ -77,11 +77,16 @@ app.post("/inventory/update", async(req, res) => {
       await runProducer.runProducer(req.body, messageOrigin);
       res.send('Inventory Update Published' + '\n' + JSON.stringify(req.body));
     } catch(err) {
-      console.error('ROUTE ERROR', err);
-      if(err == "Error: Cannot Connect to Broker"){
+      console.error('In Route ' + err + '\n');
+      console.log('TYPE ERR', typeof(err));
+      if(err.toString().includes('Error: Cannot Connect to Broker')) {
         res.status(504).send('Unable to Connect to Messaging System.'); 
-      } else if (err == "Error: Error Producing Message") {
-        console.log('IN ROUT', err);
+      } else if (err.toString().includes('Error: Error Producing Message:')) {
+        var errorType = err.type;
+        console.log('ET', errorType);
+        if(errorType == 'UNKNOWN_TOPIC_OR_PARTITION'){
+          res.status(502).send('Topic no created or available.');
+        }
       } else {
         res.status(502).send('Error');
       }
