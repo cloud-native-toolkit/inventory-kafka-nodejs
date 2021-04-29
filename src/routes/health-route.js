@@ -13,7 +13,7 @@
    */
 
  app.get('/api/healthcheck', function (req, res) {
-    console.log('HC');
+    console.log('HealthCheck Called');
     const healthcheck = {
           uptime: process.uptime(),
           message: 'OK',

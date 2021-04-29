@@ -1,33 +1,38 @@
+require('dotenv').config()
+const fs = require('fs')
+const config = require('../env/config');
 const { Kafka } = require('kafkajs');
-var opts = {};
-var services;
-//FILL IN CONFIG FROM SAMPLE
-if (process.env.MESSAGE_CONFIG) {
-  console.log("Using VCAP_SERVICES to find credentials.");
-  
-  services = JSON.parse(process.env.MESSAGE_CONFIG);
-  console.log(services);
-  if (services.hasOwnProperty('instance_id')) {
-    opts.brokers = services.kafka_brokers_sasl;
-    opts.api_key = services.api_key;
-  } else {
-    for (var key in services) {
-      if (key.lastIndexOf('messagehub', 0) === 0) {
-          eventStreamsService = services[key][0];
-          opts.brokers = eventStreamsService.credentials.kafka_brokers_sasl;
-          opts.api_key = eventStreamsService.credentials.api_key;
-          }
-      }
-  }
-    opts.calocation = '/etc/ssl/certs';
-    console.log('OPTS', opts);
 
-} else {
-  console.log('Using Local Config');
-  var messengerConfig = require('../config/kafkaLocalDefaults');
-  console.log('MC', messengerConfig);
-  opts = messengerConfig;
+
+fs.readFile("../env/confluentCA.pem", "ascii", function (pemContents) {
+  console.log('PEM',pemContents);
+});
+
+
+//Config Setup
+console.log('CONF', config, '\n');
+var opts = {
+  logLevel: 'debug',
+  clientId: config.kafka.CLIENTID,
+  brokers: config.kafka.BROKERS,
+  authenticationTimeout: 100000,
+  connectionTimeout: 4000,
+  reauthenticationThreshold: 10000,
+  ssl: {
+    rejectUnauthorized: false,
+    //ca: fs.readFileSync('../env/confluentCA.pem', 'utf-8')
+  },
+  sasl: {
+    mechanism: config.kafka.SASLMECH, // scram-sha-256 or scram-sha-512
+    username: 'devUser15',
+    password: 'kafkaDev15'
+  },
+  retry: {
+    "retries": 3,
+    "maxRetryTime": 5
+ }
 }
+console.log('OPTS', opts, '\n');
 
 const kafka = new Kafka(opts)
 const producer = kafka.producer()

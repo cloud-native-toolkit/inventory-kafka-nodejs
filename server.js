@@ -39,6 +39,7 @@ app.get('/', function (req, res) {
 healthRoute.setup(app);
 inventoryRoute.setup(app);
 
+
 //Server Config
 server.listen(3000);
 server.on('listening', function() {

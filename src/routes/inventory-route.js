@@ -47,7 +47,7 @@ module.exports.setup = (app) => {
 
 
 app.post("/inventory/update", async(req, res) => {
-  console.log('IN UPDATE');
+  console.log('Inventory Update Called');
   try {
     if(req.body.hasOwnProperty('id') == false){
       res.status(400).send("ERROR: Missing the id Parameter");
@@ -71,6 +71,7 @@ app.post("/inventory/update", async(req, res) => {
       return;
     }
     const messageOrigin = req.headers.host + req.url;
+    console.log('Parameters Set');
     console.log('MESSAGE', messageOrigin);
     try{
       await runProducer.runProducer(req.body, messageOrigin);
