@@ -71,12 +71,13 @@ async function runProducer (input, sourceURL) {
     console.log('Message Produced');
     await producer.disconnect()
   } catch(e) {
-    var errorData = JSON.stringify('{ "name":'+ e.originalError.name + ', "type":' + e.originalError.type + ', "cause": "This server does not host this topic-partition" }');
+    console.log('E: ', JSON.stringify(e));
+    var errorData = JSON.stringify('{ "name":'+ e.originalError.name + ', "kind":' + e.name + ', "cause":' + e.originalError.type + ', "place": "ProducingMessage" }');
     console.log('\n' + 'Message Producing Error', errorData + '\n');
-    if(e.originalError.name == 'KafkaJSProtocolError'){
-      const err = new Error('Error Producing Message:'+ errorData);
+    if(e.originalError.name == 'KafkaJSProtocolError') {
+      const err = new Error(errorData);
       throw err;
-    }else {
+    } else {
       const err = new Error('Other Error');
       throw err;
     }
