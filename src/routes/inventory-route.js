@@ -1,3 +1,4 @@
+const { json } = require('body-parser');
 const runProducer = require('../kafka/producer');
 module.exports.setup = (app) => {
 /**
@@ -78,7 +79,9 @@ app.post("/inventory/update", async(req, res) => {
       res.send('Inventory Update Published' + '\n' + JSON.stringify(req.body));
     } catch(error) {
       console.error('In Route ' + error + '\n');
-      console.log(error.place);
+      console.log('ERROR Type', typeof(error));
+      var jerror = JSON.parse(error);
+      console.log(jerror.place);
       if(error.place =='Error: Cannot Connect to Broker') {
         res.status(504).send('Unable to Connect to Messaging System.'); 
       } else if (error.place =='ProducingMessage') {

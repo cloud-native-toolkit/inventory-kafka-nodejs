@@ -1,12 +1,12 @@
 FROM node:14
 
-WORKDIR /app
+WORKDIR /app/
 
-COPY package* .
+COPY package* ./
 
 RUN npm ci
 
-COPY . /app
+COPY . /app/
 
 EXPOSE 3000
 

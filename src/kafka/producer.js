@@ -1,31 +1,53 @@
 require('dotenv').config()
+const path = require('path')
 const fs = require('fs')
-const config = require('../env/config');
+var config = require('../env/clusterDev');
 const { Kafka } = require('kafkajs');
-var pemPath = __dirname + '/confluentCA.pem';
-
+const pemPath = path.join(__dirname, '../', '/env/kafka-key/tls.key');
+console.log('PEM PATH', pemPath);
+var opts = {}
 //Config Setup
 console.log('CONF', config, '\n');
-var opts = {
-  clientId: config.kafka.CLIENTID,
-  brokers: config.kafka.BROKERS,
-  authenticationTimeout: 100000,
-  connectionTimeout: 4000,
-  reauthenticationThreshold: 10000,
-  ssl: {
-    rejectUnauthorized: false,
-    ca: fs.readFileSync(pemPath, 'utf-8')
-  },
-  sasl: {
-    mechanism: config.kafka.SASLMECH, // scram-sha-256 or scram-sha-512
-    username: 'devUser15',
-    password: 'kafkaDev15'
-  },
-  retry: {
-    "retries": 3,
-    "maxRetryTime": 5
- }
+if(fs.existsSync(pemPath)){
+  console.log('Using Cluster Configuration');
+  var config = require('../env/clusterDev');
+  opts = {
+    clientId: config.kafka.CLIENTID,
+    brokers: config.kafka.BROKERS,
+    authenticationTimeout: config.kafka.AUTHENTICATIONTIMEOUT,
+    connectionTimeout: config.kafka.CONNECTIONTIMEOUT,
+    reauthenticationThreshold: config.kafka.REAUTHENTICATIONTHRESHOLD,
+    ssl: {
+      rejectUnauthorized: false,
+      ca: fs.readFileSync(pemPath, 'utf-8')
+    },
+    sasl: {
+      mechanism: config.kafka.SASLMECH, // scram-sha-256 or scram-sha-512
+      username: 'devUser15',
+      password: 'kafkaDev15'
+    },
+    retry: {
+      "retries": config.kafka.RETRIES,
+      "maxRetryTime": config.kafka.MAXRETRYTIME
+   }
+  }
+} else {
+  console.log('Using Local Configuration');
+  var config = require('../env/localDev');
+  opts = {
+    clientId: config.kafka.CLIENTID,
+    brokers: config.kafka.BROKERS,
+    authenticationTimeout: config.kafka.AUTHENTICATIONTIMEOUT,
+    connectionTimeout: config.kafka.CONNECTIONTIMEOUT,
+    reauthenticationThreshold: config.kafka.REAUTHENTICATIONTHRESHOLD,
+    retry: {
+      "retries": config.kafka.RETRIES,
+      "maxRetryTime": config.kafka.MAXRETRYTIME
+   }
+  }
+
 }
+
 console.log('OPTS', opts, '\n');
 var topic = config.kafka.TOPIC;
 const kafka = new Kafka(opts)
@@ -67,6 +89,7 @@ async function runProducer (input, sourceURL) {
       messages: [
           { headers: headers , value: input.toString() }
       ],
+      acks: 1
     })
     console.log('Message Produced');
     await producer.disconnect()
