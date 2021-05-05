@@ -1,3 +1,4 @@
+const { json } = require('body-parser');
 const runProducer = require('../kafka/producer');
 module.exports.setup = (app) => {
 /**
@@ -47,7 +48,7 @@ module.exports.setup = (app) => {
 
 
 app.post("/inventory/update", async(req, res) => {
-  console.log('IN UPDATE');
+  console.log('Inventory Update Called');
   try {
     if(req.body.hasOwnProperty('id') == false){
       res.status(400).send("ERROR: Missing the id Parameter");
@@ -71,14 +72,22 @@ app.post("/inventory/update", async(req, res) => {
       return;
     }
     const messageOrigin = req.headers.host + req.url;
+    console.log('Parameters Set');
     console.log('MESSAGE', messageOrigin);
     try{
       await runProducer.runProducer(req.body, messageOrigin);
       res.send('Inventory Update Published' + '\n' + JSON.stringify(req.body));
-    } catch(err) {
-      console.error('ROUTE ERROR', err);
-      if(err == "Error: Cannot Connect to Broker"){
-        res.status(504).send('Unable to Connect to Messaging System.');
+    } catch(error) {
+      console.error('In Route ' + error + '\n');
+      console.log('ERROR Type', typeof(error));
+      var jerror = JSON.parse(error);
+      console.log(jerror.place);
+      if(error.place =='Error: Cannot Connect to Broker') {
+        res.status(504).send('Unable to Connect to Messaging System.'); 
+      } else if (error.place =='ProducingMessage') {
+        if(error.cause == 'UNKNOWN_TOPIC_OR_PARTITION'){
+          res.status(502).send('Topic no created or available.');
+        }
       } else {
         res.status(502).send('Error');
       }

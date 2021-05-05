@@ -1,0 +1,37 @@
+apiVersion: skaffold/v2beta6
+kind: Config
+profiles:
+  - name: dev
+    activation:
+      - command: dev
+    build:
+      artifacts:
+        - image: quay.io/ibmgaragecloud/inventory-svc-kafka
+          context: ../.
+          docker:
+            buildArgs:
+              ENV: dev
+          sync:
+            infer:
+              - "**/*.js"
+  - name: debug
+    activation:
+      - command: debug
+    build:
+      artifacts:
+        - image: quay.io/ibmgaragecloud/inventory-svc-kafka
+          context: ../.
+          docker:
+            buildArgs:
+              ENV: dev
+          sync:
+            infer:
+              - "**/*.js"
+build:
+  artifacts:
+    - image: quay.io/ibmgaragecloud/inventory-svc-kafka
+      context: ../.
+deploy:
+  kubectl:
+    manifests:
+    - ./deployment.yaml

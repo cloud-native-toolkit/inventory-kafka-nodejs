@@ -1,34 +1,55 @@
+require('dotenv').config()
+const path = require('path')
+const fs = require('fs')
+var config = require('../env/clusterDev');
 const { Kafka } = require('kafkajs');
-var opts = {};
-var services;
-//FILL IN CONFIG FROM SAMPLE
-if (process.env.MESSAGE_CONFIG) {
-  console.log("Using VCAP_SERVICES to find credentials.");
-  
-  services = JSON.parse(process.env.MESSAGE_CONFIG);
-  console.log(services);
-  if (services.hasOwnProperty('instance_id')) {
-    opts.brokers = services.kafka_brokers_sasl;
-    opts.api_key = services.api_key;
-  } else {
-    for (var key in services) {
-      if (key.lastIndexOf('messagehub', 0) === 0) {
-          eventStreamsService = services[key][0];
-          opts.brokers = eventStreamsService.credentials.kafka_brokers_sasl;
-          opts.api_key = eventStreamsService.credentials.api_key;
-          }
-      }
+const pemPath = path.join(__dirname, '../', '/env/kafka-key/tls.key');
+console.log('PEM PATH', pemPath);
+var opts = {}
+//Config Setup
+console.log('CONF', config, '\n');
+if(fs.existsSync(pemPath)){
+  console.log('Using Cluster Configuration');
+  var config = require('../env/clusterDev');
+  opts = {
+    clientId: config.kafka.CLIENTID,
+    brokers: config.kafka.BROKERS,
+    authenticationTimeout: config.kafka.AUTHENTICATIONTIMEOUT,
+    connectionTimeout: config.kafka.CONNECTIONTIMEOUT,
+    reauthenticationThreshold: config.kafka.REAUTHENTICATIONTHRESHOLD,
+    ssl: {
+      rejectUnauthorized: false,
+      ca: fs.readFileSync(pemPath, 'utf-8')
+    },
+    sasl: {
+      mechanism: config.kafka.SASLMECH, // scram-sha-256 or scram-sha-512
+      username: 'devUser15',
+      password: 'kafkaDev15'
+    },
+    retry: {
+      "retries": config.kafka.RETRIES,
+      "maxRetryTime": config.kafka.MAXRETRYTIME
+   }
   }
-    opts.calocation = '/etc/ssl/certs';
-    console.log('OPTS', opts);
-
 } else {
-  console.log('Using Local Config');
-  var messengerConfig = require('../config/kafkaLocalDefaults');
-  console.log('MC', messengerConfig);
-  opts = messengerConfig;
+  console.log('Using Local Configuration');
+  var config = require('../env/localDev');
+  opts = {
+    clientId: config.kafka.CLIENTID,
+    brokers: config.kafka.BROKERS,
+    authenticationTimeout: config.kafka.AUTHENTICATIONTIMEOUT,
+    connectionTimeout: config.kafka.CONNECTIONTIMEOUT,
+    reauthenticationThreshold: config.kafka.REAUTHENTICATIONTHRESHOLD,
+    retry: {
+      "retries": config.kafka.RETRIES,
+      "maxRetryTime": config.kafka.MAXRETRYTIME
+   }
+  }
+
 }
 
+console.log('OPTS', opts, '\n');
+var topic = config.kafka.TOPIC;
 const kafka = new Kafka(opts)
 const producer = kafka.producer()
 
@@ -42,38 +63,44 @@ async function runProducer (input, sourceURL) {
     "ce_id": input.id.toString(),
     "ce_time": new Date().toISOString(),
     "content-type": "application/json" };
-  try{
+
+// Connecting to the Broker Block
+  try {
     console.log('Trying to Connect');
     await producer.connect()
-    console.log('producer connected');
+    console.log('Producer Connected');
   } catch(e) {
-    console.log('E VALUE', JSON.stringify(e));
-    console.log(e.name);
-    if(e.name == 'KafkaJSConnectionError'){
-      const err = new Error('Cannot Connect to Broker');
-      throw err;
-    }else {
-      const err = new Error('Other Error');
-      throw err;
-    }
+      console.error('Connection Error', JSON.stringify(e));
+      console.log(e.name);
+      if(e.name == 'KafkaJSConnectionError'){
+        const err = new Error('Cannot Connect to Broker');
+        throw err;
+      } else {
+        const err = new Error('Other Error');
+        throw err;
+      }
   }
+
+// Producing the Message Block
   try {
-    console.log(messengerConfig.kafka_topic);
+    console.log('Producing Message');
     await producer.send({
-      topic: messengerConfig.kafka_topic,
+      topic: topic,
       messages: [
           { headers: headers , value: input.toString() }
       ],
+      acks: 1
     })
     console.log('Message Produced');
     await producer.disconnect()
   } catch(e) {
-    console.log('E VALUE', JSON.stringify(e));
-    console.log(e.originalError.name);
-    if(e.originalError.name == 'KafkaJSConnectionError'){
-      const err = new Error('Error Producing Message');
+    console.log('E: ', JSON.stringify(e));
+    var errorData = JSON.stringify('{ "name":'+ e.originalError.name + ', "kind":' + e.name + ', "cause":' + e.originalError.type + ', "place": "ProducingMessage" }');
+    console.log('\n' + 'Message Producing Error', errorData + '\n');
+    if(e.originalError.name == 'KafkaJSProtocolError') {
+      const err = new Error(errorData);
       throw err;
-    }else {
+    } else {
       const err = new Error('Other Error');
       throw err;
     }
