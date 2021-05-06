@@ -1,55 +1,10 @@
 require('dotenv').config()
-const path = require('path')
-const fs = require('fs')
-var config = require('../env/clusterDev');
 const { Kafka } = require('kafkajs');
-const pemPath = path.join(__dirname, '../', '/env/kafka-key/tls.key');
-console.log('PEM PATH', pemPath);
-var opts = {}
-//Config Setup
-console.log('CONF', config, '\n');
-if(fs.existsSync(pemPath)){
-  console.log('Using Cluster Configuration');
-  var config = require('../env/clusterDev');
-  opts = {
-    clientId: config.kafka.CLIENTID,
-    brokers: config.kafka.BROKERS,
-    authenticationTimeout: config.kafka.AUTHENTICATIONTIMEOUT,
-    connectionTimeout: config.kafka.CONNECTIONTIMEOUT,
-    reauthenticationThreshold: config.kafka.REAUTHENTICATIONTHRESHOLD,
-    ssl: {
-      rejectUnauthorized: false,
-      ca: fs.readFileSync(pemPath, 'utf-8')
-    },
-    sasl: {
-      mechanism: config.kafka.SASLMECH, // scram-sha-256 or scram-sha-512
-      username: 'devUser15',
-      password: 'kafkaDev15'
-    },
-    retry: {
-      "retries": config.kafka.RETRIES,
-      "maxRetryTime": config.kafka.MAXRETRYTIME
-   }
-  }
-} else {
-  console.log('Using Local Configuration');
-  var config = require('../env/localDev');
-  opts = {
-    clientId: config.kafka.CLIENTID,
-    brokers: config.kafka.BROKERS,
-    authenticationTimeout: config.kafka.AUTHENTICATIONTIMEOUT,
-    connectionTimeout: config.kafka.CONNECTIONTIMEOUT,
-    reauthenticationThreshold: config.kafka.REAUTHENTICATIONTHRESHOLD,
-    retry: {
-      "retries": config.kafka.RETRIES,
-      "maxRetryTime": config.kafka.MAXRETRYTIME
-   }
-  }
+const opts = require('../env/kafkaConfig');
 
-}
 
-console.log('OPTS', opts, '\n');
-var topic = config.kafka.TOPIC;
+console.log('OPTS', opts);
+var topic = opts.topic;
 const kafka = new Kafka(opts)
 const producer = kafka.producer()
 
