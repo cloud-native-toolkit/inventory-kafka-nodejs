@@ -35,7 +35,7 @@ spec:
         image: quay.io/ibmgaragecloud/inventory-svc-kafka:dev
         resources:
           limits:
-            memory: "512Mi"
+            memory: "1Gi"
             cpu: "200m"
           requests:
             memory: "256Mi"
