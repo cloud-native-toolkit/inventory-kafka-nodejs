@@ -1,5 +1,6 @@
 const { json } = require('body-parser');
 const runProducer = require('../kafka/producer');
+const topicCreation = require('../kafka/admin');
 module.exports.setup = (app) => {
 /**
   * @swagger
@@ -76,6 +77,82 @@ app.post("/inventory/update", async(req, res) => {
     console.log('MESSAGE', messageOrigin);
     try{
       await runProducer.runProducer(req.body, messageOrigin);
+      res.send('Inventory Update Published' + '\n' + JSON.stringify(req.body));
+    } catch(error) {
+      console.error('In Route ' + error + '\n');
+      console.log('ERROR Type', typeof(error));
+      var jerror = JSON.parse(error);
+      console.log(jerror.place);
+      if(error.place =='Error: Cannot Connect to Broker') {
+        res.status(504).send('Unable to Connect to Messaging System.'); 
+      } else if (error.place =='ProducingMessage') {
+        if(error.cause == 'UNKNOWN_TOPIC_OR_PARTITION'){
+          res.status(502).send('Topic no created or available.');
+        }
+      } else {
+        res.status(502).send('Error');
+      }
+    }
+  } catch (error) {
+    res.status(501).json(error);
+  }
+})
+
+/**
+  * @swagger
+  * components:
+  *  schemas:
+  *   Topic:
+  *     required:
+  *       - name
+  *     properties:
+  *       name:
+  *         type: string
+  *       partitions:
+  *         type: integer
+  *         minimum: 1
+  */
+
+/**
+   * @swagger
+   *  /inventory/createTopic:
+   *    post:
+   *     summary: Creates a topic on the Kafka Broker
+   *     requestBody:
+   *        required: true
+   *        content:
+   *          application/json:
+   *            schema:
+   *              $ref: '#/components/schemas/Topic'
+   *     responses:
+   *       '200':
+   *         description: Topic Created
+   *       '400':
+   *         description: Error with Request
+   *       '501':
+   *         description: Error Processing Request
+   *     tags:
+   *      - Inventory Actions
+   */
+
+
+app.post("/inventory/createTopic", async(req, res) => {
+  console.log('Inventory Create Topic Called');
+  try {
+    if(req.body.hasOwnProperty('name') == false){
+      res.status(400).send("ERROR: Missing the Name Parameter");
+      return;
+    }
+    if(req.body.hasOwnProperty('partitions') == false){
+      console.log('Missing partitions');
+      res.status(400).send("ERROR: Missing the Price Parameter");
+      return;
+    }
+    const messageOrigin = req.headers.host + req.url;
+    console.log('Parameters Set');
+    console.log('MESSAGE', messageOrigin);
+    try{
+      await topicCreation.topicCreation(req.body, messageOrigin);
       res.send('Inventory Update Published' + '\n' + JSON.stringify(req.body));
     } catch(error) {
       console.error('In Route ' + error + '\n');

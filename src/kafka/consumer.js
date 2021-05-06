@@ -33,6 +33,4 @@ function consumeMessage(){
     }
 }
 
-
-// It's possible to start from the beginning of the topic
-await consumer.subscribe({ topic: 'topic-D', fromBeginning: true })
+exports.consumeMessage = consumeMessage

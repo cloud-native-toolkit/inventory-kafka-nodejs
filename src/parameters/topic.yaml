@@ -1,0 +1,11 @@
+components:
+  schemas:
+  Topic:
+    required:
+        - name
+    properties:
+      name:
+        type: string
+      partitions:
+        type: integer
+        minimum: 1

@@ -8,17 +8,20 @@ var topic = opts.topic;
 const kafka = new Kafka(opts)
 const admin = kafka.admin()
 
-listTopics().then(topics => {
-    if(topics.indexOf(topic) != 1) {
-        console.log('Topic Does Not Exist');
-        createTopics().then(created => {
-            console.log('Created New Topic');
-            listTopics().then(topics => {
-                console.log('New Topics List: ', topics)
+async function topicCreation(input){
+    console.log('tc input', input);
+    listTopics().then(topics => {
+        if(topics.indexOf(input.name.toString()) != 1) {
+            console.log('Topic Does Not Exist');
+            createTopics(input.name.toString()).then(created => {
+                console.log('Created New Topic');
+                listTopics().then(topics => {
+                    console.log('New Topics List: ', topics)
+                });
             });
-        });
-    }
-}) 
+        }
+    }) 
+}
 
 async function listTopics(){
     console.log('ListTopics Admin Connecting');
@@ -28,7 +31,7 @@ async function listTopics(){
     return currentTopics;
 }
 
-async function createTopics(){
+async function createTopics(topic){
     console.log('Topic ', topic);
     try{
         var createdTopic = await admin.createTopics({
@@ -41,3 +44,4 @@ async function createTopics(){
     await admin.disconnect()
 }
 
+exports.topicCreation = topicCreation
