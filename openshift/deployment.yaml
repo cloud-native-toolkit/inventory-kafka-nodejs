@@ -46,12 +46,18 @@ spec:
         imagePullPolicy: Always
         volumeMounts:
           - mountPath: "/app/src/env/kafka-key"
-            name: kafka-key
+            name: kafka-sasl-key
+            readOnly: true
+          - mountPath: "/app/src/env/kafka-operator-key"
+            name: kafka-operator-key
             readOnly: true
       volumes:
-        - name: kafka-key
+        - name: kafka-sasl-key
           secret:
             secretName: kafka-key
+        - name: kafka-operator-key
+          secret:
+            secretName: kafkaoperatorkey
 ---
 kind: Route
 apiVersion: route.openshift.io/v1
