@@ -19,8 +19,17 @@ service:
   type: ClusterIP
   port: 8080
 
-secret:
-  name: messaging-broker-config
+saslSecret:
+  name: kafkaSaslKey
+  path: /app/src/env/kafka-key
+
+kafkaOperatorSecret:
+  name: kafka-operator-key
+  path: /app/src/env/kafka-operator-key
+
+volumes:
+  saslVolumeName: kafka-sasl-key
+  operatorVolumeName: kafka-operator-key
 
 route:
   enabled: true

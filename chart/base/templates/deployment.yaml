@@ -45,6 +45,13 @@ spec:
             - name: http
               containerPort: {{ .Values.image.port }}
               protocol: TCP
+          volumeMounts:
+          - mountPath: {{ .Values.saslSecret.path }}
+            name: {{ .Values.saslSecret.name }}
+            readOnly: true
+          - mountPath: {{ .Values.kafkaOperatorSecret.path }}
+            name: {{ .Values.kafkaOperatorSecret.name }}
+            readOnly: true
           livenessProbe:
             httpGet:
               path: /
@@ -60,13 +67,15 @@ spec:
               value: ""
             - name: LOG_LEVEL
               value: {{ .Values.logLevel | quote }}
-            - name: MESSAGE_CONFIG
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.secret.name }}
-                  key: eventStreams.yaml
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: {{ .Values.volumes.saslVolumeName }}
+          secret:
+            secretName: {{ .Values.saslSecret.name }}
+        - name: {{ .Values.volumes.operatorVolumeName }}
+          secret:
+            secretName: {{ .Values.kafkaOperatorSecret.name }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
