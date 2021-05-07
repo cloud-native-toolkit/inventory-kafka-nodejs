@@ -4,6 +4,7 @@
   "description": "NodeJS version of a kafka service.",
   "main": "index.js",
   "scripts": {
+    "production": "node server.js",
     "start": "node server.js",
     "test": "jest",
     "dev": "nodemon server.js",

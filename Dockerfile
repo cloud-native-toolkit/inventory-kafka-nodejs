@@ -10,4 +10,7 @@ COPY . /app/
 
 EXPOSE 3000
 
-CMD [ "npm", "start" ]
+ARG ENV=production
+ENV NODE_ENV $ENV
+ENV NODE_VERSION $NODEJS_VERSION
+CMD npm run $NODE_ENV
