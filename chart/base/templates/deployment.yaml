@@ -47,10 +47,10 @@ spec:
               protocol: TCP
           volumeMounts:
           - mountPath: {{ .Values.saslSecret.path }}
-            name: {{ .Values.saslSecret.name }}
+            name: {{ .Values.volumes.saslVolumeName }}
             readOnly: true
           - mountPath: {{ .Values.kafkaOperatorSecret.path }}
-            name: {{ .Values.kafkaOperatorSecret.name }}
+            name: {{ .Values.volumes.operatorVolumeName }}
             readOnly: true
           livenessProbe:
             httpGet:

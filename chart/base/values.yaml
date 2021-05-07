@@ -20,11 +20,11 @@ service:
   port: 8080
 
 saslSecret:
-  name: kafkaSaslKey
+  name: kafka-key
   path: /app/src/env/kafka-key
 
 kafkaOperatorSecret:
-  name: kafka-operator-key
+  name: kafkaoperatorkey
   path: /app/src/env/kafka-operator-key
 
 volumes:
