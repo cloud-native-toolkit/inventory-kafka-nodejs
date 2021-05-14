@@ -6,7 +6,8 @@ COPY package* ./
 
 RUN npm ci
 
-COPY . /app/
+COPY --chown=root:0 . /app/
+RUN chmod -R g=u .
 
 EXPOSE 3000
 

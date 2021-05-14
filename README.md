@@ -2,23 +2,34 @@
 
 This Node.JS Application is part of the Inventory Service for the IBM Cloud Native Toolkit Journey. This application allows users to produce a message to a kafka topic notifying all consumers that an update to an item in inventory has occured.
 
+
 <h2 align="Left">
 Environment Setup
 </h2>
 
-Install the application dependencies by running the following:
+<details>
+  <summary><span style="font-size:2em">Strimzi</span></summary>
 
-```bash
-npm install
-```
+  
+  ### Operator Setup
 
-<h2 align="Left">
-Running Kafka
-</h2>
+</details>
 
-Make sure you have an instance of kafka running either locally or remotely.
+<details>
+  <summary><span style="font-size:2em">Confluent</span></summary>
+  
+  ### Operator Setup
+
+</details>
+
+<details>
+  <summary>Local Kafka</summary>
+  
+  Make sure you have an instance of kafka running either locally or remotely.
 
 Following the instruction [here](https://kafka.apache.org/quickstart) for running kafka locally.
+
+</details>
 
 <h2 align="Left">
 Kafka Configuration

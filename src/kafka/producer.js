@@ -55,8 +55,8 @@ async function runProducer (input, sourceURL) {
     if(e.originalError.name == 'KafkaJSProtocolError') {
       const err = new Error(errorData);
       throw err;
-    } else {
-      const err = new Error('Other Error');
+    } else if (e.originalError.code == 'ENOTFOUND') {
+      const err = new Error(errorData);
       throw err;
     }
   }
