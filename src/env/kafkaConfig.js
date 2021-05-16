@@ -64,6 +64,7 @@ function setConfig(){
         var config = require('./localDev');
         opts = {
           topic: config.kafka.TOPIC,
+          groupId: config.kafka.GROUPID,
           clientId: config.kafka.CLIENTID,
           brokers: config.kafka.BROKERS,
           authenticationTimeout: config.kafka.AUTHENTICATIONTIMEOUT,

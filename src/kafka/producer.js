@@ -25,15 +25,7 @@ async function runProducer (input, sourceURL) {
     await producer.connect()
     console.log('Producer Connected');
   } catch(e) {
-      console.error('Connection Error', JSON.stringify(e));
-      console.log(e.name);
-      if(e.name == 'KafkaJSConnectionError'){
-        const err = new Error('Cannot Connect to Broker');
-        throw err;
-      } else {
-        const err = new Error('Other Error');
-        throw err;
-      }
+      throw new Error(e.message);
   }
 
 // Producing the Message Block
@@ -49,16 +41,7 @@ async function runProducer (input, sourceURL) {
     console.log('Message Produced');
     await producer.disconnect()
   } catch(e) {
-    console.log('E: ', JSON.stringify(e));
-    var errorData = JSON.stringify('{ "name":'+ e.originalError.name + ', "kind":' + e.name + ', "cause":' + e.originalError.type + ', "place": "ProducingMessage" }');
-    console.log('\n' + 'Message Producing Error', errorData + '\n');
-    if(e.originalError.name == 'KafkaJSProtocolError') {
-      const err = new Error(errorData);
-      throw err;
-    } else if (e.originalError.code == 'ENOTFOUND') {
-      const err = new Error(errorData);
-      throw err;
-    }
+    throw new Error(e.message);
   }
 }
 

@@ -78,18 +78,19 @@ app.post("/inventory/update", async(req, res) => {
       await runProducer.runProducer(req.body, messageOrigin);
       res.send('Inventory Update Published' + '\n' + JSON.stringify(req.body));
     } catch(error) {
-      console.error('In Route ' + error + '\n');
-      console.log('ERROR Type', typeof(error));
-      var jerror = JSON.parse(error);
-      console.log(jerror.place);
-      if(error.place =='Error: Cannot Connect to Broker') {
-        res.status(504).send('Unable to Connect to Messaging System.'); 
-      } else if (error.place =='ProducingMessage') {
-        if(error.cause == 'UNKNOWN_TOPIC_OR_PARTITION'){
-          res.status(502).send('Topic not created or available.');
-        }
-      } else {
-        res.status(502).send('Error');
+      console.log(error + '\n');
+      if(error.toString().includes('ECONNREFUSED')){
+        res.status(504).send({
+          'message': 'Connection to Broker Failed. Check to see if Broker is Running.'
+        });
+      } else if(error.toString().includes('getaddrinfo')) {
+        res.status(504).send({
+          'message': 'Connection to Broker Failed. Looks like the Broker address is incorrect in the configuration file.'
+        });
+      } else if(error.toString().includes('does not host this topic-partition')) {
+        res.status(409).send({
+          'message': 'The Topic needs to be created.'
+        });
       }
     }
   } catch (error) {
@@ -154,18 +155,19 @@ app.post("/inventory/createTopic", async(req, res) => {
       await topicCreation.topicCreation(req.body, messageOrigin);
       res.send('Topic has been Created' + '\n' + JSON.stringify(req.body));
     } catch(error) {
-      console.error('In Route ' + error + '\n');
-      console.log('ERROR Type', typeof(error));
-      var jerror = JSON.parse(error);
-      console.log(jerror.place);
-      if(error.place =='Error: Cannot Connect to Broker') {
-        res.status(504).send('Unable to Connect to Messaging System.'); 
-      } else if (error.place =='ProducingMessage') {
-        if(error.cause == 'UNKNOWN_TOPIC_OR_PARTITION'){
-          res.status(502).send('Topic no created or available.');
-        }
-      } else {
-        res.status(502).send('Error');
+      console.log(error + '\n');
+      if(error.toString().includes('ECONNREFUSED')){
+        res.status(504).send({
+          'message': 'Connection to Broker Failed. Check to see if Broker is Running.'
+        });
+      } else if(error.toString().includes('getaddrinfo')) {
+        res.status(504).send({
+          'message': 'Connection to Broker Failed. Looks like the Broker address is incorrect in the configuration file.'
+        });
+      } else if(error.toString().includes('does not host this topic-partition')) {
+        res.status(409).send({
+          'message': 'The Topic needs to be created.'
+        });
       }
     }
   } catch (error) {
@@ -211,20 +213,21 @@ app.post("/inventory/createTopic", async(req, res) => {
         console.log('Messages', messages);
         res.send(messages).status(200);
       } catch(error) {
-        console.error('Consumer Error ' + error + '\n');
-        console.log('ERROR Type', typeof(error));
-        var jerror = JSON.parse(error);
-        console.log(jerror.place);
-        if(error.place =='Error: Cannot Connect to Broker') {
-          res.status(504).send('Unable to Connect to Messaging System.'); 
-        } else if (error.place =='ProducingMessage') {
-          if(error.cause == 'UNKNOWN_TOPIC_OR_PARTITION'){
-            res.status(502).send('Topic no created or available.');
-          }
-        } else {
-          res.status(502).send('Error');
+        console.log(error + '\n');
+        if(error.toString().includes('ECONNREFUSED')){
+          res.status(504).send({
+            'message': 'Connection to Broker Failed. Check to see if Broker is Running.'
+          });
+        } else if(error.toString().includes('getaddrinfo')) {
+          res.status(504).send({
+            'message': 'Connection to Broker Failed. Looks like the Broker address is incorrect in the configuration file.'
+          });
+        } else if(error.toString().includes('does not host this topic-partition')) {
+          res.status(409).send({
+            'message': 'The Topic needs to be created.'
+          });
         }
-      }
+      } 
     } catch (error) {
       res.status(501).json(error);
     }

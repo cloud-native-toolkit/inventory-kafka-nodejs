@@ -1,7 +1,7 @@
 module.exports = {
     kafka: {
-      TOPIC: 'test',
-      BROKERS: ['kafka.-confluent.svc:9071'],
+      TOPIC: 'broke-test',
+      BROKERS: ['kafka.kafka-confluent.svc:9071'],
       GROUPID: 'bills-consumer-group',
       CLIENTID: 'sample-kafka-client',
       SASLMECH:'plain',
