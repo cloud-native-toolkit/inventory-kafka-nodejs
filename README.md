@@ -13,7 +13,7 @@ Confluent Setup
 <details>
   <summary><span style="font-size:18px">Operator Setup</span></summary>
   <br />
-  Follow the Instructions at the following link to setup [Confluent](https://github.ibm.com/ben-cornwell/confluent-operator) on OpenShift.
+  Follow the Instructions at the following link to setup [Confluent](https://github.ibm.com/ben-cornwell/confluent-operator/) on OpenShift.
 
   Be sure to record the `global.sasl.plain.username` and `global.sasl.plain.password` from the `values` file in the `confluent-operator` directory for the `Secret Creation` step below.
 
