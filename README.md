@@ -19,7 +19,7 @@ Environment Setup
   
 ### Operator Setup
 
-  Follow the Instructions at the following link to setup [Confluent](https://github.ibm.com/ben-cornwell/confluent-operator).
+  Follow the Instructions at the following link to setup [Confluent](https://github.ibm.com/ben-cornwell/confluent-operator) on OpenShift.
 
   Be sure to record the `global.sasl.plain.username` and `global.sasl.plain.password` from the `values` file in the `confluent-operator` directory for the `Secret Creation` step below.
 
@@ -43,6 +43,28 @@ The second key to create will be named `kafka-operator-key`. Use the following c
 oc create secret generic kafka-operator-key --from-literal=username=GLOBAL.SASL.PLAIN.USERNAME --from-literal=password=GLOBAL.SASL.PLAIN.PASSWORD -n NAMESPACE
 ```
 *Replace the `GLOBAL.SASL.PLAIN.*` with the value from the previous step and `NAMESPACE` with the namespace you want it to be deployed.*
+
+### Client Configuration
+
+First we need to setup the `clusterDev` configuration for the new deployed services.
+
+Open the file `/src/env/clusterDev.js`. **Modify** the following capitalized parameters to match your deployment.
+
+```javascript
+  kafka: {
+      TOPIC: 'YOUR TOPIC',
+      BROKERS: ['kafka.NAMESPACE.svc:9071'],
+      GROUPID: 'GROUPID',
+      CLIENTID: 'CLIENTID',
+      SASLMECH:'plain',
+      CONNECTIONTIMEOUT: 3000,
+      AUTHENTICATIONTIMEOUT: 1000,
+      REAUTHENTICATIONTHRESHOLD: 10000,
+      RETRIES: 3,
+      MAXRETRYTIME: 5
+    }
+```
+Check out the [documentation](https://kafka.js.org/docs/configuration) for details about the other parameters.
 
 </details>
 
