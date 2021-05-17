@@ -79,14 +79,14 @@ Confluent Setup
     oc apply -f openshift/deployment.yaml -n NAMESPACE
   ```
 
-  Once the Deployment is ready, Access the swagger page via through the Route that was created. You can find the route through:
+  Once the Deployment is *ready*, Access the swagger page via through the Route that was created. You can find the route through:
 
   ```bash
-    oc get route -n dev | grep test-kafka  
+    oc get route -n NAMESPACE | grep test-kafka  
   ```
   
   Go to the link that looks like: `test-kafka-NAMESPACE.---.us-east.containers.appdomain.cloud `
-  
+
 </details>
 
 <h2 align="Left">
