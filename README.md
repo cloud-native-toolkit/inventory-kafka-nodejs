@@ -42,6 +42,7 @@ The second key to create will be named `kafka-operator-key`. Use the following c
 ```bash
 oc create secret generic kafka-operator-key --from-literal=username=GLOBAL.SASL.PLAIN.USERNAME --from-literal=password=GLOBAL.SASL.PLAIN.PASSWORD -n NAMESPACE
 ```
+
 *Replace the `GLOBAL.SASL.PLAIN.*` with the value from the previous step and `NAMESPACE` with the namespace you want it to be deployed.*
 
 ### Client Configuration
@@ -64,6 +65,7 @@ Open the file `/src/env/clusterDev.js`. **Modify** the following capitalized par
       MAXRETRYTIME: 5
     }
 ```
+
 Check out the [documentation](https://kafka.js.org/docs/configuration) for details about the other parameters.
 
 </details>
