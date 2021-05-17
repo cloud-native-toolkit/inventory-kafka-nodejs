@@ -24,7 +24,7 @@ saslSecret:
   path: /app/src/env/kafka-key
 
 kafkaOperatorSecret:
-  name: kafkaoperatorkey
+  name: kafka-operator-key
   path: /app/src/env/kafka-operator-key
 
 volumes:

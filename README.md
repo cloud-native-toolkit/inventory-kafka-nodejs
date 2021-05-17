@@ -21,7 +21,7 @@ Environment Setup
 
   Follow the Instructions at the following link to setup [Confluent](https://github.ibm.com/ben-cornwell/confluent-operator).
 
-  Be sure to record the `global.sasl.plain.username` and `global.sasl.plain.password` for the `Secret Creation` step below.
+  Be sure to record the `global.sasl.plain.username` and `global.sasl.plain.password` from the `values` file in the `confluent-operator` directory for the `Secret Creation` step below.
 
   Once the operator has finished installing, copy the `confluentCA.key` and `confluentCA.pem` and move it to a convient location for you to access. Both will be needed for the `Secret Creation` step as well.
 
@@ -37,7 +37,12 @@ oc create secret tls confluent-kafka-cert --cert='./~PATH TO PEM~/confluentCA.pe
 
 *Replace the `PATH TO` with the proper directory path to the file and `NAMESPACE` with the namespace you want it to be deployed.*
 
-The second key to create will be named `kafka-operator-key`
+The second key to create will be named `kafka-operator-key`. Use the following command to create the secret:
+
+```bash
+oc create secret generic kafka-operator-key --from-literal=username=GLOBAL.SASL.PLAIN.USERNAME --from-literal=password=GLOBAL.SASL.PLAIN.PASSWORD -n NAMESPACE
+```
+*Replace the `GLOBAL.SASL.PLAIN.*` with the value from the previous step and `NAMESPACE` with the namespace you want it to be deployed.*
 
 </details>
 
@@ -54,6 +59,12 @@ Following the instruction [here](https://kafka.apache.org/quickstart) for runnin
 Kafka Configuration
 </h2>
 
+<h2 align="Left">
+OpenShift Deployment
+</h2>
+
+Deploying to Openshift...
+
 
 <h2 align="Left">
 Local Development
@@ -66,12 +77,6 @@ npm run dev
 ```
 
 Access the swagger page via `http:localhost:3000`
-
-<h2 align="Left">
-OpenShift Deployment
-</h2>
-
-Deploying to Openshift...
 
 <h2 align="Left">
 Contributors

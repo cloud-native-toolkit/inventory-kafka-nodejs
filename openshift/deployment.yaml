@@ -57,7 +57,7 @@ spec:
             secretName: confluent-kafka-cert
         - name: kafka-operator-key
           secret:
-            secretName: kafkaoperatorkey
+            secretName: kafka-operator-key
 ---
 kind: Route
 apiVersion: route.openshift.io/v1
