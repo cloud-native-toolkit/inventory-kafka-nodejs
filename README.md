@@ -11,21 +11,21 @@ Environment Setup
   <summary><span style="font-size:18px">Strimzi</span></summary>
 
   
-  ##### Operator Setup
+  #### Operator Setup
 
 </details>
 
 <details>
   <summary><span style="font-size:18px">Confluent</span></summary>
   
-##### Operator Setup
+#### Operator Setup
 
   Follow the Instructions at the following link to setup [Confluent](https://github.ibm.com/ben-cornwell/confluent-operator).
 
   Be sure to record the ```global.sasl.plain.username``` and ```global.sasl.plain.password``` for the `Secret Creation` step below.
 
   Once the operator has finished installing, copy the `confluentCA.key` and `confluentCA.pem` and move it to a convient location for you to access. Both will be needed for the `Secret Creation` step as well. 
-##### Secret Creation
+#### Secret Creation
 
 Secrets will be needed in order to connect your Kafka Client to the running instance of Kafka.
 
