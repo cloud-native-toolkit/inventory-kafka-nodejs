@@ -3,9 +3,9 @@
 This Node.JS Application is part of the Inventory Service for the IBM Cloud Native Toolkit Journey. This application allows users to produce a message to a kafka topic notifying all consumers that an update to an item in inventory has occured.
 
 
-<h3 align="Left">
+<h2 align="Left">
 Environment Setup
-</h3>
+</h2>
 
 <details>
   <summary><span style="font-size:18px">Strimzi</span></summary>
@@ -48,14 +48,14 @@ Following the instruction [here](https://kafka.apache.org/quickstart) for runnin
 
 </details>
 
-<h3 align="Left">
+<h2 align="Left">
 Kafka Configuration
-</h3>
+</h2>
 
 
-<h3 align="Left">
+<h2 align="Left">
 Local Development
-</h3>
+</h2>
 
 To start the server run:
 
@@ -65,14 +65,14 @@ npm run dev
 
 Access the swagger page via `http:localhost:3000`
 
-<h3 align="Left">
+<h2 align="Left">
 OpenShift Deployment
-</h3>
+</h2>
 
 Deploying to Openshift...
 
-<h3 align="Left">
+<h2 align="Left">
 Contributors
-</h3>
+</h2>
 
 - Bryan Kribbs (bakribbs@us.ibm.com)
