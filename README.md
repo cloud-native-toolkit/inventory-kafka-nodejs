@@ -2,11 +2,13 @@
 
 This Node.JS Application is part of the Inventory Service for the IBM Cloud Native Toolkit Journey. This application allows users to produce a message to a kafka topic notifying all consumers that an update to an item in inventory has occured.
 
+This application supports the following configurations:
+  - Confluent
+  - Local Kafka
+  - Strimzi
 <h2 align="Left">
 Confluent Setup
 </h2>
-
-Use the following walkthrough to setup a confluent kafka environment on OpenShift and configuring this client to use it.
 
 <details>
   <summary><span style="font-size:18px">Operator Setup</span></summary>
@@ -69,7 +71,7 @@ Use the following walkthrough to setup a confluent kafka environment on OpenShif
 </details>
 
 <h2 align="Left">
-Local Setup
+Local Kafka Setup
 </h2>
 
 <details>
