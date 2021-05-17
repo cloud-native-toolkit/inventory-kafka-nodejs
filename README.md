@@ -12,18 +12,18 @@ Confluent Setup
 
 <details>
   <summary><span style="font-size:18px">Operator Setup</span></summary>
-  
+  <br />
   Follow the Instructions at the following link to setup [Confluent](https://github.ibm.com/ben-cornwell/confluent-operator) on OpenShift.
 
   Be sure to record the `global.sasl.plain.username` and `global.sasl.plain.password` from the `values` file in the `confluent-operator` directory for the `Secret Creation` step below.
 
-  Once the operator has finished installing, copy the `confluentCA.key` and `confluentCA.pem` and move it to a convient location for you to access. Both will be needed for the `Secret Creation` step as well.
+  Once the operator has finished installing, **copy** the `confluentCA.key` and `confluentCA.pem` and move it to a convient location for you to access. Both will be needed for the `Secret Creation` step as well.
 
 </details>
 
 <details>
   <summary><span style="font-size:18px">Secret Creation</span></summary>
-
+  <br />
   Secrets will be needed in order to connect your Kafka Client to the running instance of Kafka. **Two** secrets will need to be created.
 
   First will be named `confluent-kafka-cert`. Use the following command to create the secret:
@@ -46,7 +46,7 @@ Confluent Setup
 
 <details>
   <summary><span style="font-size:18px">Client Configuration</span></summary>
-  
+  <br />
   First we need to setup the `clusterDev` configuration for the new deployed services.
 
   Open the file `/src/env/clusterDev.js`. **Modify** the following capitalized parameters to match your deployment.
@@ -108,7 +108,7 @@ Local Kafka Setup
 
 <details>
   <summary><span style="font-size:18px">Setting Up the Client</span></summary>
-  \
+  <br />
   Install the dependencies
 
   ```bash
