@@ -1,6 +1,3 @@
-const { KafkaJSMetadataNotLoaded } = require('kafkajs');
-const supertest = require("supertest");
-// app is supposed to point to the app.js file
 const server = require('../server');
 var chai = require('chai')
 var chaiHttp = require('chai-http');
