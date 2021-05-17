@@ -21,19 +21,21 @@ Environment Setup
 
   Follow the Instructions at the following link to setup [Confluent](https://github.ibm.com/ben-cornwell/confluent-operator).
 
-  Be sure to record the ```global.sasl.plain.username``` and ```global.sasl.plain.password``` for the `Secret Creation` step below.
+  Be sure to record the `global.sasl.plain.username` and `global.sasl.plain.password` for the `Secret Creation` step below.
 
   Once the operator has finished installing, copy the `confluentCA.key` and `confluentCA.pem` and move it to a convient location for you to access. Both will be needed for the `Secret Creation` step as well.
 
 ### Secret Creation
 
-Secrets will be needed in order to connect your Kafka Client to the running instance of Kafka.
+Secrets will be needed in order to connect your Kafka Client to the running instance of Kafka. **Two** secrets will need to be created.
 
-Two secrets will need to be created. First will be named `confluent-kafka-cert`. Use the following command to create the secret:
+First will be named `confluent-kafka-cert`. Use the following command to create the secret:
 
-```oc create secret tls confluent-kafka-cert --cert='./~PATH TO PEM~/confluentCA.pem' --key='./~PATH TO KEY~/confluentCA.key' -n dev```
+```bash
+oc create secret tls confluent-kafka-cert --cert='./~PATH TO PEM~/confluentCA.pem' --key='./~PATH TO KEY~/confluentCA.key' -n NAMESPACE
+```
 
-Replace the `PATH TO` with the proper directory path to the file.
+*Replace the `PATH TO` with the proper directory path to the file and `NAMESPACE` with the namespace you want it to be deployed.*
 
 The second key to create will be named `kafka-operator-key`
 
