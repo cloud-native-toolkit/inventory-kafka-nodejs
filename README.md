@@ -13,7 +13,7 @@ Confluent Setup
 <details>
   <summary><span style="font-size:18px">Operator Setup</span></summary>
   <br />
-  Follow the Instructions at the following link to setup [Confluent](https://github.ibm.com/ben-cornwell/confluent-operator/) on OpenShift.
+  Follow the Instructions at the following link to setup [confluent](https://github.ibm.com/ben-cornwell/confluent-operator/) on OpenShift.
 
   Be sure to record the `global.sasl.plain.username` and `global.sasl.plain.password` from the `values` file in the `confluent-operator` directory for the `Secret Creation` step below.
 
@@ -67,6 +67,25 @@ Confluent Setup
   ```
 
   Check out the [documentation](https://kafka.js.org/docs/configuration) for details about the other parameters.
+
+</details>
+
+<details>
+  <summary><span style="font-size:18px">Running the Client</span></summary>
+  <br />
+  Deploying to Openshift
+
+  ```bash
+    oc apply -f openshift/deployment.yaml -n NAMESPACE
+  ```
+
+  Once the Deployment is *ready*, Access the swagger page via through the Route that was created. You can find the route through:
+
+  ```bash
+    oc get route -n NAMESPACE | grep test-kafka  
+  ```
+  
+  Go to the link that looks like: `test-kafka-NAMESPACE.---.us-east.containers.appdomain.cloud `
 
 </details>
 
