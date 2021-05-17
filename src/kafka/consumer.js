@@ -1,36 +1,40 @@
 require('dotenv').config()
 const { Kafka } = require('kafkajs');
 const opts = require('../env/kafkaConfig');
-
-console.log('OPTS', opts, '\n');
+let messages = [];
+console.log('Consumer OPTS', opts, '\n');
 var topic = opts.topic;
 
 const kafka = new Kafka(opts)
-const consumer = kafka.consumer()
+const consumer = kafka.consumer({ groupId: opts.groupId })
 
 
-function consumeMessage(){
+async function runConsumer(input, sourceURL){
     try{
         console.log('Connecting Consumer');
         await consumer.connect()
         console.log('Consumer Connected');
     } catch(e){
-
+        throw new Error(e.message);
     }
     try{
-        await consumer.subscribe({ topic: opts.topic })
+        await consumer.subscribe({ topic: opts.topic, fromBeginning: true })
         await consumer.run({
-            eachMessage: async ({ topic, partition, message }) => {
+            eachMessage: async ({ topic, partition, message }) => { 
                 console.log({
                     key: message.key.toString(),
                     value: message.value.toString(),
                     headers: message.headers,
                 })
+                messages.push("{",message.key.toString(),":" ,message.value.toString(),"}")
             },
         })
+        await consumer.disconnect();
+        console.log('Consumer Disconnected');
+        return messages;
     } catch(e){
-
+      throw new Error(e.message);
     }
 }
 
-exports.consumeMessage = consumeMessage
+exports.runConsumer = runConsumer

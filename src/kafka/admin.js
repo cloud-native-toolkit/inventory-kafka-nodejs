@@ -24,11 +24,16 @@ async function topicCreation(input){
 }
 
 async function listTopics(){
-    console.log('ListTopics Admin Connecting');
-    await admin.connect()
-    console.log('ListTopics Admin Connected');
-    var currentTopics = await admin.listTopics()
-    return currentTopics;
+    try {
+        console.log('ListTopics Admin Connecting');
+        await admin.connect()
+        console.log('ListTopics Admin Connected');
+        var currentTopics = await admin.listTopics()
+        return currentTopics;
+    } catch(e) {
+        throw new Error(e.message);
+    }
+    
 }
 
 async function createTopics(topic){
@@ -39,7 +44,7 @@ async function createTopics(topic){
         })
         console.log('Topic Created: ', createdTopic);
     } catch(e){
-        console.log('Topic Creation Error: ', e);
+        throw new Error(e.message);
     }
     await admin.disconnect()
 }
