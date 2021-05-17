@@ -6,6 +6,8 @@ This Node.JS Application is part of the Inventory Service for the IBM Cloud Nati
 Confluent Setup
 </h2>
 
+Use the following walkthrough to setup a confluent kafka environment on OpenShift and configuring this client to use it.
+
 <details>
   <summary><span style="font-size:18px">Operator Setup</span></summary>
   
@@ -104,7 +106,7 @@ Local Setup
 
 <details>
   <summary><span style="font-size:18px">Setting Up the Client</span></summary>
-
+  \
   Install the dependencies
 
   ```bash
