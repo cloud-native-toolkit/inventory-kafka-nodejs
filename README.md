@@ -84,7 +84,8 @@ Confluent Setup
   ```bash
     oc get route -n dev | grep test-kafka  
   ```
-
+  
+  Go to the link that looks like `test-kafka-NAMESPACE.---.us-east.containers.appdomain.cloud `
 </details>
 
 <h2 align="Left">
