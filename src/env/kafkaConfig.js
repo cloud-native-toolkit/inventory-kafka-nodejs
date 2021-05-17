@@ -1,8 +1,7 @@
 require('dotenv').config()
 const path = require('path')
 const fs = require('fs')
-const pemPath = path.join(__dirname, '../', '/env/kafka-key/tls.key');
-const stinziPath = path.join(__dirname, '../', '/env/kafka-key/tls.key');
+const pemPath = path.join(__dirname, '../', '/env/confluent-kafka-cert/tls.key');
 const usernameKeyPath = path.join(__dirname, '../', '/env/kafka-operator-key/username');
 const passKeyPath = path.join(__dirname, '../', '/env/kafka-operator-key/password');
 

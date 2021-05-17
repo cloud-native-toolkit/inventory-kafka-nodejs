@@ -45,7 +45,7 @@ spec:
             name: http
         imagePullPolicy: Always
         volumeMounts:
-          - mountPath: "/app/src/env/kafka-key"
+          - mountPath: "/app/src/env/confluent-kafka-cert"
             name: kafka-sasl-key
             readOnly: true
           - mountPath: "/app/src/env/kafka-operator-key"
@@ -54,7 +54,7 @@ spec:
       volumes:
         - name: kafka-sasl-key
           secret:
-            secretName: kafka-key
+            secretName: confluent-kafka-cert
         - name: kafka-operator-key
           secret:
             secretName: kafkaoperatorkey
