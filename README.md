@@ -7,7 +7,7 @@ Environment Setup
 </h2>
 
 <details>
-  <summary><span style="font-size:18px">Strimzi</span></summary>
+  <summary><span style="font-size:22px">Strimzi</span></summary>
 
 
 ### Operator Setup
@@ -15,7 +15,7 @@ Environment Setup
 </details>
 
 <details>
-  <summary><span style="font-size:18px">Confluent</span></summary>
+  <summary><span style="font-size:22px">Confluent</span></summary>
   
 ### Operator Setup
 
@@ -47,7 +47,7 @@ oc create secret generic kafka-operator-key --from-literal=username=GLOBAL.SASL.
 </details>
 
 <details>
-  <summary><span style="font-size:18px">Local Kafka</span></summary>
+  <summary><span style="font-size:22px">Local Kafka</span></summary>
   
   Make sure you have an instance of kafka running either locally or remotely.
 
