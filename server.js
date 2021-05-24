@@ -13,7 +13,7 @@ const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerDefinition = {
   "openapi": '3.0.1',
   "info": {
-    "title": "Inventory Service with Kafka",
+    "title": "Inventory Service with Kafka test",
     "description": "API for updating the Inventory Service.",
     "version": "1.0.0"
   },
