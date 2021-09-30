@@ -35,7 +35,7 @@
     "express": "^4.17.1",
     "kafkajs": "^1.15.0",
     "node-config": "^0.0.2",
-    "nodemon": "^2.0.7",
+    "nodemon": "^2.0.12",
     "path": "^0.12.7",
     "standard": "^16.0.3",
     "swagger-jsdoc": "6.1.0",
