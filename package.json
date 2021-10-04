@@ -37,7 +37,7 @@
     "node-config": "^0.0.2",
     "nodemon": "^2.0.7",
     "path": "^0.12.7",
-    "standard": "^16.0.3",
+    "standard": "^16.0.4",
     "swagger-jsdoc": "6.1.0",
     "swagger-ui": "^3.48.0",
     "swagger-ui-express": "^4.1.6"
