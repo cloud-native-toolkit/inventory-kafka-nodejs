@@ -29,7 +29,7 @@
   "homepage": "https://github.com/ibm-garage-cloud/inventory-kafka-nodejs#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
-    "chai": "^4.3.4",
+    "chai": "^4.3.8",
     "chai-http": "^4.3.0",
     "dotenv": "^8.6.0",
     "express": "^4.17.1",
